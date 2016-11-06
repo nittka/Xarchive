@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="de.nittka.tooling.xarchive.feature"
+      label="Xarchive SDK Feature "
+      version="1.0.0.qualifier">
+
+   <plugin
+         id="de.nittka.tooling.xarchive"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.nittka.tooling.xarchive.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

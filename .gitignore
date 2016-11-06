@@ -1,7 +1,10 @@
 *.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+.DS_Store
+plugin.xml_gen
+bin/
+target/
+src-gen/
+xtend-gen/
 
 # Package Files #
 *.jar

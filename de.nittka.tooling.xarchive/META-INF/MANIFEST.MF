@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.nittka.tooling.xarchive
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: de.nittka.tooling.xarchive; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext;visibility:=reexport,
+ org.eclipse.xtext.generator;resolution:=optional,
+ org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
+ org.eclipse.emf.codegen.ecore;resolution:=optional,
+ org.eclipse.emf.mwe.utils;resolution:=optional,
+ org.eclipse.emf.mwe2.launch;resolution:=optional,
+ org.eclipse.equinox.common;bundle-version="3.6.200";resolution:=optional,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.antlr.runtime
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.xbase.lib
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: de.nittka.tooling.xarchive,
+ de.nittka.tooling.xarchive.services,
+ de.nittka.tooling.xarchive.xarchive,
+ de.nittka.tooling.xarchive.xarchive.impl,
+ de.nittka.tooling.xarchive.xarchive.util,
+ de.nittka.tooling.xarchive.serializer,
+ de.nittka.tooling.xarchive.parser.antlr,
+ de.nittka.tooling.xarchive.parser.antlr.internal,
+ de.nittka.tooling.xarchive.validation,
+ de.nittka.tooling.xarchive.scoping,
+ de.nittka.tooling.xarchive.formatting

@@ -1,0 +1,34 @@
+grammar de.nittka.tooling.xarchive.Xarchive with org.eclipse.xtext.common.Terminals
+
+generate xarchive "http://www.nittka.de/tooling/xarchive/Xarchive"
+
+Model:
+	ArchiveConfig|Document;
+
+ArchiveConfig: {ArchiveConfig}types+=CategoryType*;
+CategoryType: "category" name=ID required?="required"? "{"
+	category+=Category (","category+=Category)*
+	"}"
+;
+Category: name=ID (description=STRING)? ("{"
+	category+=Category (","category+=Category)*
+	"}")?;
+
+Document: 
+	(futureDoc?="@futureDoc")?
+	name=ID'.'extension=ID
+	//TODO date
+	categories+=CategoryRef*
+	(("tags"":" tags+=ID)("," tags+=ID)*)?
+	("description" description=STRING)?
+	seeAlso+=SeeAlso*
+	(fullText=FullTextForSearch)?
+;
+FullTextForSearch: text=FULLTEXT;
+
+CategoryRef: type=[CategoryType]":" categories+=[Category] ("," categories+=[Category])*";";
+SeeAlso: "->" ref=[Document] (description=STRING)?;
+
+terminal ID: '^'?('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+terminal FULLTEXT: "'''" IN_FULLTEXT* ("'''"| ("'" "'"?)? EOF);
+terminal fragment IN_FULLTEXT : "''" !("'") | "'" !("'")| !("'");
