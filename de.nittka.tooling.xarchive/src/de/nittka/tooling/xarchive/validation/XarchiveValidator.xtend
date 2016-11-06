@@ -16,6 +16,8 @@ import de.nittka.tooling.xarchive.xarchive.XarchivePackage
  */
 class XarchiveValidator extends AbstractXarchiveValidator {
 
+	val public static FILE_NAME="filename"
+
 	@Check
 	def checkDuplicateCategory(Document doc) {
 		val Set<CategoryType> types=newHashSet()
@@ -28,4 +30,14 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 			}
 		]
 	}
+
+	@Check
+	def checkFileName(Document doc) {
+		val resourceName=doc.eResource.URI.trimFileExtension.lastSegment
+		if(doc.name!=resourceName){
+			error('''illegal file name: '«resourceName»' expected''', XarchivePackage.Literals.DOCUMENT__NAME, FILE_NAME, doc.name, resourceName)
+		}
+	}
+
+
 }
