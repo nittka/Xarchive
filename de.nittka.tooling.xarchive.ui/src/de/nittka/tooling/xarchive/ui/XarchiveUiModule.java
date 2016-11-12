@@ -12,4 +12,10 @@ public class XarchiveUiModule extends de.nittka.tooling.xarchive.ui.AbstractXarc
 	public XarchiveUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
+
+	@Override
+	public com.google.inject.Provider<org.eclipse.xtext.resource.containers.IAllContainersState> provideIAllContainersState() {
+		return org.eclipse.xtext.ui.shared.Access.getWorkspaceProjectsState();
+	}
+
 }
