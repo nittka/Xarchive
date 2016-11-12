@@ -18,4 +18,8 @@ public class XarchiveUiModule extends de.nittka.tooling.xarchive.ui.AbstractXarc
 		return org.eclipse.xtext.ui.shared.Access.getWorkspaceProjectsState();
 	}
 
+	// contributed by org.eclipse.xtext.generator.validation.ValidatorFragment
+	@org.eclipse.xtext.service.SingletonBinding(eager=true)	public Class<? extends de.nittka.tooling.xarchive.validation.XarchiveValidator> bindXarchiveValidator() {
+		return de.nittka.tooling.xarchive.ui.validation.XarchiveUIValidator.class;
+	}
 }
