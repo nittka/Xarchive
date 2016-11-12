@@ -37,7 +37,7 @@ class XarchiveQuickfixProvider extends DefaultQuickfixProvider {
 		acceptor.accept(issue, 'Change referenced file', 'change referenced file to '+expected, null) [
 			obj, context |
 			val doc=obj as Document
-			doc.setName(expected)
+			doc.file.setFileName(expected)
 		]
 	}
 }

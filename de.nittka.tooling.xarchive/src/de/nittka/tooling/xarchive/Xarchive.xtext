@@ -16,7 +16,7 @@ Category: name=ID (description=STRING)? ("{"
 
 Document: 
 	(futureDoc?="@futureDoc")?
-	name=ID'.'extension=ID
+	file=DocumentFileName
 	//TODO date
 	categories+=CategoryRef*
 	(("tags"":" tags+=ID)("," tags+=ID)*)?
@@ -24,6 +24,7 @@ Document:
 	seeAlso+=SeeAlso*
 	(fullText=FullTextForSearch)?
 ;
+DocumentFileName hidden(): fileName=ID'.'extension=ID;
 FullTextForSearch: text=FULLTEXT;
 
 CategoryRef: type=[CategoryType]":" categories+=[Category] ("," categories+=[Category])*";";

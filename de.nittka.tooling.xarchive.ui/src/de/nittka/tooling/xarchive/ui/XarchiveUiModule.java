@@ -4,6 +4,9 @@
 package de.nittka.tooling.xarchive.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.resource.ILocationInFileProvider;
+
+import de.nittka.tooling.xarchive.ui.linking.XarchiveLocationInFileProvider;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -19,7 +22,12 @@ public class XarchiveUiModule extends de.nittka.tooling.xarchive.ui.AbstractXarc
 	}
 
 	// contributed by org.eclipse.xtext.generator.validation.ValidatorFragment
-	@org.eclipse.xtext.service.SingletonBinding(eager=true)	public Class<? extends de.nittka.tooling.xarchive.validation.XarchiveValidator> bindXarchiveValidator() {
+	@org.eclipse.xtext.service.SingletonBinding(eager=true)
+	public Class<? extends de.nittka.tooling.xarchive.validation.XarchiveValidator> bindXarchiveValidator() {
 		return de.nittka.tooling.xarchive.ui.validation.XarchiveUIValidator.class;
+	}
+
+	public Class<? extends ILocationInFileProvider> bindXarchiveLocationInFileProvider(){
+		return XarchiveLocationInFileProvider.class;
 	}
 }

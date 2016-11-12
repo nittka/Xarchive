@@ -8,6 +8,7 @@ import org.eclipse.xtext.validation.Check
 import de.nittka.tooling.xarchive.xarchive.CategoryType
 import java.util.Set
 import de.nittka.tooling.xarchive.xarchive.XarchivePackage
+import de.nittka.tooling.xarchive.xarchive.DocumentFileName
 
 /**
  * Custom validation rules. 
@@ -32,12 +33,10 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 	}
 
 	@Check
-	def checkFileName(Document doc) {
-		val resourceName=doc.eResource.URI.trimFileExtension.lastSegment
-		if(doc.name!=resourceName){
-			error('''illegal file name: '«resourceName»' expected''', XarchivePackage.Literals.DOCUMENT__NAME, FILE_NAME, doc.name, resourceName)
+	def checkFileName(DocumentFileName file) {
+		val resourceName=file.eResource.URI.trimFileExtension.lastSegment
+		if(file.fileName!=resourceName){
+			error('''illegal file name: '«resourceName»' expected''', XarchivePackage.Literals.DOCUMENT_FILE_NAME__FILE_NAME, FILE_NAME, file.fileName, resourceName)
 		}
 	}
-
-
 }

@@ -3,9 +3,17 @@
  */
 package de.nittka.tooling.xarchive;
 
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
+
+import de.nittka.tooling.xarchive.scoping.XarchiveNameProvider;
+
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class XarchiveRuntimeModule extends de.nittka.tooling.xarchive.AbstractXarchiveRuntimeModule {
 
+	@Override
+	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
+		return XarchiveNameProvider.class;
+	}
 }
