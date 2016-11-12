@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IWorkspace
 import org.eclipse.core.runtime.Path
 import org.eclipse.xtext.validation.Check
 import de.nittka.tooling.xarchive.xarchive.DocumentFileName
+import de.nittka.tooling.xarchive.ui.XarchiveFileURIs
 
 class XarchiveUIValidator extends XarchiveValidator {
 
@@ -19,12 +20,7 @@ class XarchiveUIValidator extends XarchiveValidator {
 			//referenced file need not exists
 			return
 		}
-		val referencedResouce=try{
-			file.eResource.URI.trimSegments(1).appendSegment(file.fileName).appendFileExtension(file.extension)
-		}catch(Exception e){
-			//partial name does not need to be validated
-			null
-		}
+		val referencedResouce=XarchiveFileURIs.getReferencedResourceURI(file)
 		if(referencedResouce!==null){
 			val referencedIFile=ws.root.getFile(new Path(referencedResouce.toPlatformString(true)))
 			if(!referencedIFile.exists){
