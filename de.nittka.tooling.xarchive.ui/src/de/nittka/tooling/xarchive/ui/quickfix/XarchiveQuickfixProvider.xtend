@@ -34,7 +34,7 @@ class XarchiveQuickfixProvider extends DefaultQuickfixProvider {
 			val renamePath=file.projectRelativePath.removeLastSegments(1).append(orig+".xarch")
 			file.move(renamePath, true,  new NullProgressMonitor);
 		]
-		acceptor.accept(issue, 'Change file referenced file', 'change referenced file to '+expected, null) [
+		acceptor.accept(issue, 'Change referenced file', 'change referenced file to '+expected, null) [
 			obj, context |
 			val doc=obj as Document
 			doc.setName(expected)
