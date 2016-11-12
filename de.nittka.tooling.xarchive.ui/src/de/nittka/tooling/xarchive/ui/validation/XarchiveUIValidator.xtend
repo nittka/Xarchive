@@ -14,6 +14,10 @@ class XarchiveUIValidator extends XarchiveValidator {
 
 	@Check
 	def checkFileExistence(Document doc) {
+		if(doc.futureDoc){
+			//referenced file need not exists
+			return
+		}
 		val referencedResouce=doc.eResource.URI.trimSegments(1).appendSegment(doc.name).appendFileExtension(doc.extension)
 		val file=ws.root.getFile(new Path(referencedResouce.toPlatformString(true)))
 		if(!file.exists){
