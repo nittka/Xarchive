@@ -9,6 +9,7 @@ import de.nittka.tooling.xarchive.xarchive.CategoryType
 import java.util.Set
 import de.nittka.tooling.xarchive.xarchive.XarchivePackage
 import de.nittka.tooling.xarchive.xarchive.DocumentFileName
+import java.util.regex.Pattern
 
 /**
  * Custom validation rules. 
@@ -37,6 +38,17 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 		val resourceName=file.eResource.URI.trimFileExtension.lastSegment
 		if(file.fileName!=resourceName){
 			error('''illegal file name: '«resourceName»' expected''', XarchivePackage.Literals.DOCUMENT_FILE_NAME__FILE_NAME, FILE_NAME, file.fileName, resourceName)
+		}
+	}
+
+	val static Pattern datePattern=Pattern.compile("\\d{4}(-\\d{2}){0,2}")
+
+	@Check
+	def checkDateFormant(Document doc) {
+		if(doc.date!==null){
+			if(!datePattern.matcher(doc.date).matches){
+				error("illegal date format (yyyy, yyyy-mm, or yyyy-mm-dd)", XarchivePackage.Literals.DOCUMENT__DATE)
+			}
 		}
 	}
 }

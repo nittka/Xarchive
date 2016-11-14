@@ -17,7 +17,7 @@ Category: name=ID (description=STRING)? ("{"
 Document: 
 	(futureDoc?="@futureDoc")?
 	file=DocumentFileName
-	//TODO date
+	("date"":"date=ID)?
 	categories+=CategoryRef*
 	(("tags"":" tags+=ID)("," tags+=ID)*)?
 	("description" description=STRING)?
@@ -30,6 +30,6 @@ FullTextForSearch: text=FULLTEXT;
 CategoryRef: type=[CategoryType]":" categories+=[Category] ("," categories+=[Category])*";";
 SeeAlso: "->" ref=[Document] (description=STRING)?;
 
-terminal ID: '^'?('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+terminal ID: ('a'..'z'|'A'..'Z'|'_'|'0'..'9'|'-')*;
 terminal FULLTEXT: "'''" IN_FULLTEXT* ("'''"| ("'" "'"?)? EOF);
 terminal fragment IN_FULLTEXT : "''" !("'") | "'" !("'")| !("'");
