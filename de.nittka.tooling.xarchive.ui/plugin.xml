@@ -308,6 +308,24 @@
             </attribute>
         </markerResolutionGenerator>
     </extension>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            canFinishEarly="true"
+            category="org.eclipse.xtext.projectwiz"
+            class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:de.nittka.tooling.xarchive.ui.wizard.XarchiveNewFileWizard"
+            hasPages="false"
+            id="de.nittka.tooling.xarchive.ui.wizard.XarchiveNewFileWizard"
+            name="Xarchive File"
+            project="false">
+      </wizard>
+   </extension>
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+     <perspectiveExtension targetID="*">
+      <newWizardShortcut id="de.nittka.tooling.xarchive.ui.wizard.XarchiveNewFileWizard"/>
+     </perspectiveExtension>
+   </extension>
    	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
 		<handler 
