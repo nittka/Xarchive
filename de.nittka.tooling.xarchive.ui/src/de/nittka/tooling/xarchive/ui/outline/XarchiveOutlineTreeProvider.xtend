@@ -3,11 +3,18 @@
 */
 package de.nittka.tooling.xarchive.ui.outline
 
+import de.nittka.tooling.xarchive.xarchive.Document
+import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider
+
 /**
  * Customization of the default outline structure.
  *
  * see http://www.eclipse.org/Xtext/documentation.html#outline
  */
-class XarchiveOutlineTreeProvider extends org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider {
-	
+class XarchiveOutlineTreeProvider extends DefaultOutlineTreeProvider {
+
+	def boolean isLeaf(Document doc){
+		return true;
+	}
+
 }
