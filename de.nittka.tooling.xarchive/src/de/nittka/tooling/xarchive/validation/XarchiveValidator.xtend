@@ -3,19 +3,24 @@
  */
 package de.nittka.tooling.xarchive.validation
 
-import de.nittka.tooling.xarchive.xarchive.Document
-import org.eclipse.xtext.validation.Check
-import de.nittka.tooling.xarchive.xarchive.CategoryType
-import java.util.Set
-import de.nittka.tooling.xarchive.xarchive.XarchivePackage
-import de.nittka.tooling.xarchive.xarchive.DocumentFileName
-import java.util.regex.Pattern
-import java.util.List
-import de.nittka.tooling.xarchive.xarchive.ArchiveConfig
 import com.google.common.collect.Lists
-import de.nittka.tooling.xarchive.xarchive.CategoryRef
+import de.nittka.tooling.xarchive.xarchive.ArchiveConfig
 import de.nittka.tooling.xarchive.xarchive.Category
+import de.nittka.tooling.xarchive.xarchive.CategoryRef
+import de.nittka.tooling.xarchive.xarchive.CategoryType
+import de.nittka.tooling.xarchive.xarchive.Document
+import de.nittka.tooling.xarchive.xarchive.DocumentFileName
+import de.nittka.tooling.xarchive.xarchive.XarchivePackage
+import java.util.List
+import java.util.Set
+import java.util.regex.Pattern
+import javax.inject.Inject
 import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider
+import org.eclipse.xtext.validation.Check
+import org.eclipse.xtext.validation.CheckType
+import org.eclipse.xtext.resource.IResourceServiceProvider
+import org.eclipse.xtext.resource.IEObjectDescription
 
 /**
  * Custom validation rules. 
@@ -26,6 +31,11 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 
 	val public static FILE_NAME="filename"
 	val public static MISSING_CATEGORY="missingCategory"
+
+	@Inject
+	private ResourceDescriptionsProvider indexProvider
+	@Inject
+	private IResourceServiceProvider serviceProvider
 
 	@Check
 	def checkDuplicateCategory(Document doc) {
@@ -108,5 +118,19 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 	def private List<CategoryType> getMandatoryTypes(Document doc){
 		val ArchiveConfig config=doc.categories.get(0).type.eContainer as ArchiveConfig
 		return config.types.filter[required].toList
+	}
+
+	@Check(CheckType.NORMAL)
+	def checkAtMostOneConfig(ArchiveConfig config) {
+		val List<IEObjectDescription>configs=newArrayList
+		val index=indexProvider.getResourceDescriptions(config.eResource)
+		val containerManager=serviceProvider.containerManager
+		val visibleContainer=containerManager.getVisibleContainers(serviceProvider.resourceDescriptionManager.getResourceDescription(config.eResource), index)
+		visibleContainer.forEach[
+			configs.addAll(it.getExportedObjectsByType(XarchivePackage.Literals.ARCHIVE_CONFIG))
+		]
+		if(configs.size>1){
+			error("there is more than one archive configuration file:"+configs.map[name.toString].join(", "), XarchivePackage.Literals.ARCHIVE_CONFIG__TYPES)
+		}
 	}
 }

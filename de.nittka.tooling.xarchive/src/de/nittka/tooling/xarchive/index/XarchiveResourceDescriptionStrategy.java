@@ -12,6 +12,7 @@ import org.eclipse.xtext.util.IAcceptor;
 
 import com.google.common.base.Joiner;
 
+import de.nittka.tooling.xarchive.xarchive.ArchiveConfig;
 import de.nittka.tooling.xarchive.xarchive.Document;
 
 public class XarchiveResourceDescriptionStrategy extends
@@ -23,19 +24,24 @@ public class XarchiveResourceDescriptionStrategy extends
 		if(eObject instanceof Document){
 			Document doc=(Document)eObject;
 			QualifiedName qualifiedName = getQualifiedNameProvider().getFullyQualifiedName(eObject);
-			Map<String,String> map=new HashMap<String, String>();
-			if(doc.getDate()!=null){
-				map.put("date", doc.getDate());
+			if(qualifiedName!=null){
+				Map<String,String> map=new HashMap<String, String>();
+				if(doc.getDate()!=null){
+					map.put("date", doc.getDate());
+				}
+				if(doc.getDescription()!=null){
+					map.put("desc", doc.getDescription());
+				}
+				if(!doc.getTags().isEmpty()){
+					map.put("tags", Joiner.on(";").join(doc.getTags()));
+				}
+				acceptor.accept(EObjectDescription.create(qualifiedName, eObject, map));
 			}
-			if(doc.getDescription()!=null){
-				map.put("desc", doc.getDescription());
-			}
-			if(!doc.getTags().isEmpty()){
-				map.put("tags", Joiner.on(";").join(doc.getTags()));
-			}
-			acceptor.accept(EObjectDescription.create(qualifiedName, eObject, map));
 			return false;
-		}else{
+		} else if(eObject instanceof ArchiveConfig){
+			acceptor.accept(EObjectDescription.create(QualifiedName.create(eObject.eResource().getURI().lastSegment()), eObject));
+			return true;
+		} else {
 			return super.createEObjectDescriptions(eObject, acceptor);
 		}
 	}
