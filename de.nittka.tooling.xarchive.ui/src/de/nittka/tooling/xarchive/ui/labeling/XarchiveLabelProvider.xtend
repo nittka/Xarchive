@@ -4,6 +4,8 @@
 package de.nittka.tooling.xarchive.ui.labeling
 
 import com.google.inject.Inject
+import de.nittka.tooling.xarchive.xarchive.Document
+import de.nittka.tooling.xarchive.xarchive.Category
 
 /**
  * Provides labels for a EObjects.
@@ -18,11 +20,21 @@ class XarchiveLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLab
 	}
 
 	// Labels and icons can be computed like this:
-	
-//	def text(Greeting ele) {
-//		'A greeting to ' + ele.name
-//	}
-//
+
+	def String text(Document doc){
+		if(doc.description!==null)'''«doc.file.fileName» - «doc.description»'''else doc.file.fileName
+	}
+
+	def String text(Category cat){
+		val desc=cat.description
+		val result=if(desc!==null)'''«cat.name» («desc»)'''else cat.name
+		if(cat.eContainer instanceof Category){
+			return '''«result» <- «text(cat.eContainer as Category)»'''
+		}else{
+			return result;
+		}
+	}
+
 //	def image(Greeting ele) {
 //		'Greeting.gif'
 //	}

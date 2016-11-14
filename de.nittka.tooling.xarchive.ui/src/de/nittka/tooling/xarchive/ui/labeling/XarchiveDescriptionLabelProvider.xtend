@@ -3,6 +3,10 @@
 */
 package de.nittka.tooling.xarchive.ui.labeling
 
+import org.eclipse.xtext.resource.IEObjectDescription
+import org.eclipse.xtext.ui.label.DefaultDescriptionLabelProvider
+import de.nittka.tooling.xarchive.xarchive.XarchivePackage
+
 //import org.eclipse.xtext.resource.IEObjectDescription
 
 /**
@@ -10,13 +14,19 @@ package de.nittka.tooling.xarchive.ui.labeling
  * 
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#labelProvider
  */
-class XarchiveDescriptionLabelProvider extends org.eclipse.xtext.ui.label.DefaultDescriptionLabelProvider {
+class XarchiveDescriptionLabelProvider extends DefaultDescriptionLabelProvider {
 
 	// Labels and icons can be computed like this:
 	
-//	override text(IEObjectDescription ele) {
-//		ele.name
-//	}
+	override text(IEObjectDescription ele) {
+		if(ele.EClass===XarchivePackage.Literals.DOCUMENT){
+			val desc=ele.getUserData("desc")
+			if(desc!==null){
+				return '''«ele.name» - «desc»'''.toString
+			}
+		}
+		super.text(ele)
+	}
 //	 
 //	override image(IEObjectDescription ele) {
 //		ele.EClass.name + '.gif'

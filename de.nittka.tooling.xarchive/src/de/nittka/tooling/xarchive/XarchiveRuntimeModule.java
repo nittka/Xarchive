@@ -4,7 +4,9 @@
 package de.nittka.tooling.xarchive;
 
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 
+import de.nittka.tooling.xarchive.index.XarchiveResourceDescriptionStrategy;
 import de.nittka.tooling.xarchive.scoping.XarchiveNameProvider;
 
 /**
@@ -16,4 +18,9 @@ public class XarchiveRuntimeModule extends de.nittka.tooling.xarchive.AbstractXa
 	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return XarchiveNameProvider.class;
 	}
+
+	public Class<? extends IDefaultResourceDescriptionStrategy> bindResourceDescriptionStrategy() {
+		return XarchiveResourceDescriptionStrategy.class;
+	}
+
 }
