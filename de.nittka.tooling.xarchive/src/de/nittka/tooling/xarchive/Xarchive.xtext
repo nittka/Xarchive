@@ -27,7 +27,7 @@ Document:
 DocumentFileName hidden(): fileName=ID'.'extension=ID;
 FullTextForSearch: text=FULLTEXT;
 
-CategoryRef: type=[CategoryType]":" categories+=[Category] ("," categories+=[Category])*";";
+CategoryRef: type=[CategoryType]":" (categories+=[Category] ("," categories+=[Category])*)?";";
 SeeAlso: "->" ref=[Document] (description=STRING)?;
 
 terminal ID: ('a'..'z'|'A'..'Z'|'_'|'0'..'9'|'-')*;

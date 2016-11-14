@@ -5,16 +5,14 @@ package de.nittka.tooling.xarchive.ui.quickfix
 
 import de.nittka.tooling.xarchive.validation.XarchiveValidator
 import de.nittka.tooling.xarchive.xarchive.Document
+import de.nittka.tooling.xarchive.xarchive.XarchivePackage
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.NullProgressMonitor
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
 import org.eclipse.xtext.ui.editor.quickfix.Fix
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
 import org.eclipse.xtext.validation.Issue
-
-//import org.eclipse.xtext.ui.editor.quickfix.Fix
-//import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
-//import org.eclipse.xtext.validation.Issue
 
 /**
  * Custom quickfixes.
@@ -38,6 +36,18 @@ class XarchiveQuickfixProvider extends DefaultQuickfixProvider {
 			obj, context |
 			val doc=obj as Document
 			doc.file.setFileName(expected)
+		]
+	}
+
+	@Fix(XarchiveValidator::MISSING_CATEGORY)
+	def addMissingCategory(Issue issue, IssueResolutionAcceptor acceptor) {
+		val category=issue.data.get(0)
+		acceptor.accept(issue, 'add category', 'add category '+category, null) [
+			obj, context |
+			val xtextDocument=context.xtextDocument
+			val doc=obj as Document
+			val offset=NodeModelUtils.findNodesForFeature(doc, XarchivePackage.Literals.DOCUMENT__CATEGORIES).get(0).offset
+			xtextDocument.replace(offset, 0, category+": ;\n")
 		]
 	}
 }
