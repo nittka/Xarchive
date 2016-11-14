@@ -6,10 +6,12 @@ package de.nittka.tooling.xarchive.ui;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler;
 import org.eclipse.xtext.ui.editor.folding.IFoldingRegionProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 
 import de.nittka.tooling.xarchive.ui.folding.XarchiveFoldingRegionProvider;
+import de.nittka.tooling.xarchive.ui.linking.XarchiveFindReferencesHandler;
 import de.nittka.tooling.xarchive.ui.linking.XarchiveHyperlinkHelper;
 import de.nittka.tooling.xarchive.ui.linking.XarchiveLocationInFileProvider;
 
@@ -47,4 +49,9 @@ public class XarchiveUiModule extends de.nittka.tooling.xarchive.ui.AbstractXarc
 	public Class<? extends XtextEditor> bindXarchiveXtextEditor(){
 		return XarchiveXtextEditor.class;
 	}
+
+	public Class<? extends FindReferencesHandler> bindXarchiveReferenceFinder(){
+		return XarchiveFindReferencesHandler.class;
+	}
+
 }
