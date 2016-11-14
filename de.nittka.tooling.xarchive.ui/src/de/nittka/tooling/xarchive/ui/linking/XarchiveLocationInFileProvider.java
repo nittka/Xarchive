@@ -12,7 +12,10 @@ public class XarchiveLocationInFileProvider extends
 	@Override
 	public ITextRegion getSignificantTextRegion(EObject obj) {
 		if(obj instanceof Document){
-			return getFullTextRegion(((Document) obj).getFile());
+			Document doc = ((Document) obj);
+			if(doc.getFile() != null){
+				return getFullTextRegion(doc.getFile());
+			}
 		}
 		return super.getSignificantTextRegion(obj);
 	}

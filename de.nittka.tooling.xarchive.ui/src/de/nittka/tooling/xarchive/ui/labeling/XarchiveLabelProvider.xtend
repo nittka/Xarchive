@@ -22,7 +22,7 @@ class XarchiveLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLab
 	// Labels and icons can be computed like this:
 
 	def String text(Document doc){
-		if(doc.description!==null)'''«doc.file.fileName» - «doc.description»'''else doc.file.fileName
+		if(doc.description!==null)'''«doc.file.fileName» - «doc.description»'''else doc?.file?.fileName
 	}
 
 	def String text(Category cat){
