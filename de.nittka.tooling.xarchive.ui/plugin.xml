@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 
 <plugin>
+   <extension-point id="ocrprovider" name="Xarchive OCR" schema="schema/xarchive_ocr.exsd"/>
 
     <extension
             point="org.eclipse.ui.editors">
