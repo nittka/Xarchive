@@ -4,9 +4,7 @@ import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -22,11 +20,12 @@ import org.eclipse.xtext.util.StringInputStream;
 
 import com.google.common.base.Throwables;
 
+import de.nittka.tooling.xarchive.ui.XarchiveFileURIs;
+
 public class XarchiveNewFileWizard extends Wizard implements INewWizard {
 
 	private IFile file=null;
 	private IFile targetFile=null;
-	private String name=null;
 	private String errorMessage=": a single file needs to be selected";
 	
 	@Override
@@ -36,7 +35,6 @@ public class XarchiveNewFileWizard extends Wizard implements INewWizard {
 			Object first = iterator.next();
 			if(first instanceof IFile){
 				file=(IFile)first;
-				name=file.getFullPath().lastSegment();
 			}
 			if(iterator.hasNext()){
 				file=null;
@@ -46,9 +44,8 @@ public class XarchiveNewFileWizard extends Wizard implements INewWizard {
 			if("xarch".equals(file.getFileExtension())){
 				file=null;
 				errorMessage=": an Xarchive file is selected";
-			}else if(file.exists()){
-				IPath path = file.getFullPath().removeFileExtension().addFileExtension("xarch");
-				targetFile=file.getParent().getFile(new Path(path.lastSegment()));
+			} else if(file.exists()){
+				targetFile=XarchiveFileURIs.getXarchiveFile(file);
 				if(targetFile.exists()){
 					file=null;
 					errorMessage=": Xarchive file already exists";
