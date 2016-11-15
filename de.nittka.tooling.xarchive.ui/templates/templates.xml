@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<templates>
+  <template
+    id="categoryReference"
+    autoinsert="false" 
+    context="de.nittka.tooling.xarchive.Xarchive.CategoryRef" 
+    deleted="false" 
+    description="type: categroy;" 
+    enabled="true" 
+    name="category"
+    >${type:CrossReference(CategoryRef.type)}: ${category};
+</template>
+  </templates>
