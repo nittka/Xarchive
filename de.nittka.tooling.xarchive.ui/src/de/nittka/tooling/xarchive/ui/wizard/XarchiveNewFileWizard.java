@@ -77,7 +77,7 @@ public class XarchiveNewFileWizard extends Wizard implements INewWizard {
 					ocrString="";
 					e.printStackTrace();
 				}
-				targetFile.create(new StringInputStream(prefix+ocrString), true, new NullProgressMonitor());
+				targetFile.create(new StringInputStream(prefix+Strings.nullToEmpty(ocrString)), true, new NullProgressMonitor());
 				getShell().getDisplay().asyncExec(new Runnable() {
 					public void run() {
 						IWorkbenchPage page =
