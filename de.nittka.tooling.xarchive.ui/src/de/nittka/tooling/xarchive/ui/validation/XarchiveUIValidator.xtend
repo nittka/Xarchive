@@ -16,6 +16,8 @@ import org.eclipse.core.resources.IFile
 
 class XarchiveUIValidator extends XarchiveValidator {
 
+	public static val MISSING_XARCHIVE_FILE="missingXarch"
+
 	@Inject IWorkspace ws;
 
 	@Check
@@ -44,8 +46,11 @@ class XarchiveUIValidator extends XarchiveValidator {
 					IFile case resource.fileExtension=="xarch": return false
 					IFile case resource.name==".project": return false
 					IFile: {
-						if(!XarchiveFileURIs.getXarchiveFile(resource).exists){
-							error('''no Xarchive file for «resource.projectRelativePath»''', XarchivePackage.Literals.ARCHIVE_CONFIG__TYPES)
+						val target=XarchiveFileURIs.getXarchiveFile(resource)
+						if(!target.exists){
+							val projectRelative=resource.projectRelativePath
+							error('''no Xarchive file for «projectRelative»''', XarchivePackage.Literals.ARCHIVE_CONFIG__TYPES, 
+								MISSING_XARCHIVE_FILE, resource.name, resource.fullPath.toString)
 						}
 						return false
 					}

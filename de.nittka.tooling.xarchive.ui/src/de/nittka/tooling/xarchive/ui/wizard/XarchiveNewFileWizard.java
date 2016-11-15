@@ -2,26 +2,14 @@ package de.nittka.tooling.xarchive.ui.wizard;
 
 import java.util.Iterator;
 
+import javax.inject.Inject;
+
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.xtext.ui.editor.XtextEditor;
-import org.eclipse.xtext.util.StringInputStream;
-
-import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 
 import de.nittka.tooling.xarchive.ui.XarchiveFileURIs;
 
@@ -30,6 +18,8 @@ public class XarchiveNewFileWizard extends Wizard implements INewWizard {
 	private IFile file=null;
 	private IFile targetFile=null;
 	private String errorMessage=": a single file needs to be selected";
+	@Inject
+	private XarchiveNewFileCreator fileCreator;
 	
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -62,56 +52,8 @@ public class XarchiveNewFileWizard extends Wizard implements INewWizard {
 		if(file==null){
 			MessageDialog.openError(getShell(), "Xarchive", "Cannot create Xarchive file for the current selection"+errorMessage);
 		}else{
-			try {
-				String prefix=file.getName()+"\n";
-				String ocrString="";
-				try{
-					XarchiveOcrProvider ocrProvider=getOcrProvider();
-					if(ocrProvider!=null){
-						ocrString=ocrProvider.getOCR(file);
-						if(!Strings.isNullOrEmpty(ocrString)){
-							ocrString="\n\n'''\n"+ocrString+"\n'''";
-						}
-					}
-				}catch(Exception e){
-					ocrString="";
-					e.printStackTrace();
-				}
-				targetFile.create(new StringInputStream(prefix+Strings.nullToEmpty(ocrString)), true, new NullProgressMonitor());
-				getShell().getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						IWorkbenchPage page =
-							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						try {
-							IEditorPart editor = IDE.openEditor(page, targetFile, true);
-							if(editor instanceof XtextEditor){
-								((XtextEditor) editor).selectAndReveal(prefix.length(), 0);
-							}
-						} catch (PartInitException e) {
-						}
-					}
-				});
-			} catch (CoreException e) {
-				Throwables.propagate(e);
-			}
+			fileCreator.createXarchiveFile(file, getShell());
 		}
 		return true;
 	}
-
-	private XarchiveOcrProvider getOcrProvider() throws CoreException{
-		IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor("de.nittka.tooling.xarchive.ui.ocrprovider");
-		XarchiveOcrProvider result=null;
-		for (IConfigurationElement config : configs) {
-			XarchiveOcrProvider provider = (XarchiveOcrProvider)config.createExecutableExtension("class");
-//					injector.injectMembers(generator);
-			if(result==null){
-				result=provider;
-			}else{
-				MessageDialog.openError(getShell(), "Xarchive", "more than one OCR provider present - using the first one");
-				break;
-			}
-		}
-		return result;
-	}
-
 }

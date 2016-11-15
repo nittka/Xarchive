@@ -13,6 +13,12 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
 import org.eclipse.xtext.ui.editor.quickfix.Fix
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
 import org.eclipse.xtext.validation.Issue
+import de.nittka.tooling.xarchive.ui.wizard.XarchiveNewFileCreator
+import javax.inject.Inject
+import de.nittka.tooling.xarchive.ui.validation.XarchiveUIValidator
+import org.eclipse.core.runtime.Path
+import org.eclipse.swt.widgets.Shell
+import org.eclipse.ui.PlatformUI
 
 /**
  * Custom quickfixes.
@@ -20,6 +26,9 @@ import org.eclipse.xtext.validation.Issue
  * see http://www.eclipse.org/Xtext/documentation.html#quickfixes
  */
 class XarchiveQuickfixProvider extends DefaultQuickfixProvider {
+
+	@Inject
+	XarchiveNewFileCreator fileCreator
 
 	@Fix(XarchiveValidator::FILE_NAME)
 	def changeReferencedName(Issue issue, IssueResolutionAcceptor acceptor) {
@@ -48,6 +57,23 @@ class XarchiveQuickfixProvider extends DefaultQuickfixProvider {
 			val doc=obj as Document
 			val offset=NodeModelUtils.findNodesForFeature(doc, XarchivePackage.Literals.DOCUMENT__CATEGORIES).get(0).offset
 			xtextDocument.replace(offset, 0, category+": ;\n")
+		]
+	}
+
+	@Fix(XarchiveUIValidator::MISSING_XARCHIVE_FILE)
+	def addMissingXarchive(Issue issue, IssueResolutionAcceptor acceptor) {
+		val displayName=issue.data.get(0)
+		val fullPath=issue.data.get(1)
+		acceptor.accept(issue, 'Xarchive for '+displayName, 'creates a new Xarchive file', null) [
+			obj, context |
+			val file=context.xtextDocument.getAdapter(IFile)
+			val target=file.workspace.root.getFile(new Path(fullPath))
+			val Shell shell =try{
+				PlatformUI.workbench.activeWorkbenchWindow.shell
+			}catch(Exception e){
+				null
+			}
+			fileCreator.createXarchiveFile(target, shell)
 		]
 	}
 }
