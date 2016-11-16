@@ -19,6 +19,7 @@ import de.nittka.tooling.xarchive.ui.validation.XarchiveUIValidator
 import org.eclipse.core.runtime.Path
 import org.eclipse.swt.widgets.Shell
 import org.eclipse.ui.PlatformUI
+import de.nittka.tooling.xarchive.xarchive.DocumentFileName
 
 /**
  * Custom quickfixes.
@@ -38,13 +39,13 @@ class XarchiveQuickfixProvider extends DefaultQuickfixProvider {
 			context |
 			val xtextDocument = context.xtextDocument
 			val file=xtextDocument.getAdapter(IFile)
-			val renamePath=file.projectRelativePath.removeLastSegments(1).append(orig+".xarch")
+			val renamePath=file.fullPath.removeLastSegments(1).append(orig+".xarch")
 			file.move(renamePath, true,  new NullProgressMonitor);
 		]
 		acceptor.accept(issue, 'Change referenced file', 'change referenced file to '+expected, null) [
 			obj, context |
-			val doc=obj as Document
-			doc.file.setFileName(expected)
+			val file=obj as DocumentFileName
+			file.setFileName(expected)
 		]
 	}
 
