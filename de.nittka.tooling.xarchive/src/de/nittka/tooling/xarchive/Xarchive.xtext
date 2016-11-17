@@ -6,7 +6,7 @@ Model:
 	ArchiveConfig|Document;
 
 ArchiveConfig: {ArchiveConfig}types+=CategoryType*;
-CategoryType: "category" name=ID required?="required"? "{"
+CategoryType: "categoriesFor" name=ID required?="required"? "{"
 	category+=Category (","category+=Category)*
 	"}"
 ;
