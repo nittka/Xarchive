@@ -21,6 +21,7 @@ import org.eclipse.xtext.validation.Check
 import org.eclipse.xtext.validation.CheckType
 import org.eclipse.xtext.resource.IResourceServiceProvider
 import org.eclipse.xtext.resource.IEObjectDescription
+import org.eclipse.emf.ecore.EStructuralFeature
 
 /**
  * Custom validation rules. 
@@ -62,9 +63,14 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 
 	@Check
 	def checkDateFormant(Document doc) {
-		if(doc.date!==null){
-			if(!datePattern.matcher(doc.date).matches){
-				error("illegal date format (yyyy, yyyy-mm, or yyyy-mm-dd)", XarchivePackage.Literals.DOCUMENT__DATE)
+		checkDateFormat(doc, doc.docDate, XarchivePackage.Literals.DOCUMENT__DOC_DATE)
+		checkDateFormat(doc, doc.entryDate, XarchivePackage.Literals.DOCUMENT__ENTRY_DATE)
+	}
+
+	def private checkDateFormat(Document doc, String date, EStructuralFeature feature){
+		if(date!==null){
+			if(!datePattern.matcher(date).matches){
+				error("illegal date format (yyyy, yyyy-mm, or yyyy-mm-dd)", feature)
 			}
 		}
 	}

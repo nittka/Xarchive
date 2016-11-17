@@ -20,9 +20,13 @@ Category: name=ID (description=STRING)?
 Document: 
 	(futureDoc?="@futureDoc")?
 	file=DocumentFileName
-	("date"":"date=ID)?
+	(
+		("date" docDate=ID)?
+			&
+		("entryDate" entryDate=ID)?
+	)
 	categories+=CategoryRef*
-	(("tags"":" tags+=ID)("," tags+=ID)*)?
+	(("tags"":" tags+=ID)("," tags+=ID)*";")?
 	("description" description=STRING)?
 	seeAlso+=SeeAlso*
 	(fullText=FullTextForSearch)?

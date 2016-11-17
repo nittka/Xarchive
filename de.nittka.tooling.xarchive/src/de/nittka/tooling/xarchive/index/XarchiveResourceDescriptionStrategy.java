@@ -26,8 +26,11 @@ public class XarchiveResourceDescriptionStrategy extends
 			QualifiedName qualifiedName = getQualifiedNameProvider().getFullyQualifiedName(eObject);
 			if(qualifiedName!=null){
 				Map<String,String> map=new HashMap<String, String>();
-				if(doc.getDate()!=null){
-					map.put("date", doc.getDate());
+				if(doc.getDocDate()!=null){
+					map.put("date", doc.getDocDate());
+				}
+				if(doc.getEntryDate()!=null){
+					map.put("entryDate", doc.getEntryDate());
 				}
 				if(doc.getDescription()!=null){
 					map.put("desc", doc.getDescription());
