@@ -10,9 +10,12 @@ CategoryType: "category" name=ID required?="required"? "{"
 	category+=Category (","category+=Category)*
 	"}"
 ;
-Category: name=ID (description=STRING)? ("{"
-	category+=Category (","category+=Category)*
-	"}")?;
+Category: name=ID (description=STRING)? 
+	(
+		("{"category+=Category (","category+=Category)*"}")
+		|
+		("shortcutFor" "(" shortCuts+=ShortCut ("," shortCuts+=ShortCut)*")")
+	)?;
 
 Document: 
 	(futureDoc?="@futureDoc")?
@@ -28,6 +31,7 @@ DocumentFileName hidden(): fileName=ID'.'extension=ID;
 FullTextForSearch: text=FULLTEXT;
 
 CategoryRef: type=[CategoryType]":" (categories+=[Category] ("," categories+=[Category])*)?";";
+ShortCut: type=[CategoryType]":" category=[Category];
 SeeAlso: "->" ref=[Document] (description=STRING)?;
 
 terminal ID: ('a'..'z'|'A'..'Z'|'_'|'0'..'9'|'-')*;

@@ -74,27 +74,34 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 		if(doc.categories.empty){
 			error("at least one category must be defined", XarchivePackage.Literals.DOCUMENT__FILE)
 		} else {
+			val Set<Category> usedCategories=newHashSet;
+			doc.categories.forEach[checkCategory(usedCategories)]
+
+			val usedTypes=usedCategories.map[EcoreUtil2.getContainerOfType(it, CategoryType)].toSet
 			val missingMandatoryTypes=Lists.newArrayList(doc.mandatoryTypes)
-			doc.categories.forEach[missingMandatoryTypes.remove(it.type)]
+			missingMandatoryTypes.removeAll(usedTypes)
+
 			missingMandatoryTypes.forEach[
 				error("missing mandatory category type "+name, XarchivePackage.Literals.DOCUMENT__FILE, MISSING_CATEGORY, name)
 			]
-			doc.categories.forEach[checkCategory]
 		}
 	}
 
-	def void checkCategory(CategoryRef ref){
+	def void checkCategory(CategoryRef ref, Set<Category> usedCategories){
 		if(ref.categories.empty){
 			error("at least one category must be defined", ref, XarchivePackage.Literals.CATEGORY_REF__TYPE)
 		}else{
-			val Set<Category> usedCategories=newHashSet;
-			(0..ref.categories.size-1).forEach[
-				val cat=ref.categories.get(it)
-				if(usedCategories.contains(cat)){
-					error("duplicate category "+cat.name, ref, XarchivePackage.Literals.CATEGORY_REF__CATEGORIES, it)
-				}else{
-					usedCategories.addAll(cat.allCategories)
-				}
+			(0..ref.categories.size-1).forEach[index|
+				val cat=ref.categories.get(index)
+				val catToCheck=newHashSet(cat)
+				catToCheck.addAll(cat.shortCuts.map[category])
+				catToCheck.forEach[toCheck|
+					if(usedCategories.contains(toCheck)){
+						error("duplicate category "+toCheck.name, ref, XarchivePackage.Literals.CATEGORY_REF__CATEGORIES, index)
+					}else{
+						usedCategories.addAll(toCheck.allCategories)
+					}
+				]
 			]
 		}
 	}
