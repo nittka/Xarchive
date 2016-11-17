@@ -7,7 +7,7 @@ This is intended to be a lightweight Xtext based Document management system. Wit
 * documents (scanned, pdf, etc.)
 * for each document an `xarch` file containing meta data for this document (such as a list of applicable _categories_)
 
-Supported meta data include
+Supported meta data includes
 * document name — name of the document
 * date (precision year, month, day) — indicating the date for which the document is relevant
 * entry date — indicating the date when the document was received
@@ -56,10 +56,14 @@ categoriesFor scope {
 categoriesFor common {
   //a category may be a short cut for a combination of other categories
   schoolFeeDaughter shortcutFor (
-  	person:daughter,
-  	documentType: invoice,
-  	scope:school,
-  	scope: tax
+    person:daughter,
+    documentType: invoice,
+    scope:school,
+    scope: tax
+  ),
+  unpaidBill shortcutFor (
+    status:unPaid,
+    documentType:invoice
   )
 }
 ```
@@ -95,7 +99,7 @@ On opening the document this text will be "folded"
  * single or multi line comment  
  */
 ```
-Except for the document name (and required categories) all meta date is optional. Of course, the more meta data you provide, the better potential search results will be.
+Except for the document name (and required categories) all meta data is optional. Of course, the more meta data you provide, the better potential search results will be.
 ```
 shoolingMay.pdf
 
@@ -109,17 +113,22 @@ common:schoolFeeDaughter;
 * define your own category hierarchies for describing your documents
 * hover showing category descriptions (if you provided them)
 * create new `xarch` file wizard
-** select a document and use the wizard to create the file with the correct file name already entered
+  * select a document and use the wizard to create the file with the correct file name already entered
+* content assist
+  * keywords
+  * categories
+  * documents for document references
+  * write your own templates for common document types
 * Validation (+ Quickfixes for some)
-** document not found
-** missing `xarc` file for a document
-** missing mandatory category (if type is marked as required)
+  * document not found
+  * missing `xarc` file for a document
+  * missing mandatory category (if type is marked as required)
 * Navigation using F3
-** opening the original document
-** navigate to the category definition
-** navigate to the referenced document
+  * opening the original document
+  * navigate to the category definition
+  * navigate to the referenced document
 * Find references `shift-ctrl-g`
-** where is the given category used (excluding short cuts or via category hierarchy)
+  * where is the given category used (excluding short cuts or via category hierarchy)
 
 An extension point allows an additional plugin to provide the full text search string for a given file, e.g. by using some OCR software.
 The new file wizard will then automatically include this string in the file. 
