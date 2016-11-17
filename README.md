@@ -1,2 +1,131 @@
 # Xarchive
-a lightweight Xtext based Document management system
+
+##Scope
+
+This is intended to be a lightweight Xtext based Document management system. Within a single project you keep 
+* a definition file for _categories_
+* documents (scanned, pdf, etc.)
+* for each document an `xarch` file containing meta data for this document (such as a list of applicable _categories_)
+
+Supported meta data include
+* document name — name of the document
+* date (precision year, month, day) — indicating the date for which the document is relevant
+* entry date — indicating the date when the document was received
+* list of (self defined) categories
+* list of tags — additional keywords applying to the document
+* description — **short** text describing the document
+* list of references to other documents (along with description of the reference)
+* full text search string — e.g. from OCR
+
+##Syntax
+
+### definition file
+
+```
+//a category type may be mandatory
+categoriesFor status required {
+  done,
+  //a category may have a description (e.g. shown in hover)
+  metaDataIncomplete "doc is registered, but meta data has to be completed",
+  //a category may have sub categories
+  todo {
+    URGENT,
+    Normal,
+    eventually,
+    unPaid
+  }
+}
+
+categoriesFor person {
+  parents {
+    mom, dad
+  },
+  children {
+    daughter, son
+  }
+}
+
+categoriesFor documentType {
+  contract, receipt, pass, invoice, guarantee
+}
+
+categoriesFor scope {
+  tax, work, health, housing, school
+}
+
+categoriesFor common {
+  //a category may be a short cut for a combination of other categories
+  schoolFeeDaughter shortcutFor (
+  	person:daughter,
+  	documentType: invoice,
+  	scope:school,
+  	scope: tax
+  )
+}
+```
+
+### xarch file
+
+```
+//file name of the document
+invoiceScrubFast.jpg
+
+date 2015-10-19
+entryDate 2015-11-07 
+
+status: done;  
+documentType: invoice, guarantee;
+scope: housing;
+
+tags: dishwasher, specialOffer;
+description "new dishwasher bought at SuperTec for €395.95"
+
+//see also reference to another document with optional description
+->invoiceScrubSlow "old broken dishwasher"
+
+'''
+This is a full text of the document for text search.
+It may be obtained using some OCR software
+
+On opening the document this text will be "folded" 
+(i.e. not immediately visible, so the meta data is not cluttered). 
+'''
+
+/* of course you can add additional information as 
+ * single or multi line comment  
+ */
+```
+Except for the document name (and required categories) all meta date is optional. Of course, the more meta data you provide, the better potential search results will be.
+```
+shoolingMay.pdf
+
+date 2016-05-01
+status: unPaid;
+common:schoolFeeDaughter;
+```
+
+#Features
+
+* define your own category hierarchies for describing your documents
+* hover showing category descriptions (if you provided them)
+* create new `xarch` file wizard
+** select a document and use the wizard to create the file with the correct file name already entered
+* Validation (+ Quickfixes for some)
+** document not found
+** missing `xarc` file for a document
+** missing mandatory category (if type is marked as required)
+* Navigation using F3
+** opening the original document
+** navigate to the category definition
+** navigate to the referenced document
+* Find references `shift-ctrl-g`
+** where is the given category used (excluding short cuts or via category hierarchy)
+
+An extension point allows an additional plugin to provide the full text search string for a given file, e.g. by using some OCR software.
+The new file wizard will then automatically include this string in the file. 
+
+##Limitations
+
+For simlicity file names, tags, categories etc. have a restricted character set (a-z, A-Z, digits, undersore and dash).
+
+The `xarch` file must have the same file name as and be located next to the original document — only the file extension differs. Currently, documents without file extension are not supported.
