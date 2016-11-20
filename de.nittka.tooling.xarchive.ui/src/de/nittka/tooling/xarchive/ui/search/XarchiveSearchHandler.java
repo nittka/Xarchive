@@ -1,0 +1,66 @@
+package de.nittka.tooling.xarchive.ui.search;
+
+import javax.inject.Provider;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.search.ui.NewSearchUI;
+import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.eclipse.xtext.ui.editor.utils.EditorUtils;
+import org.eclipse.xtext.util.concurrent.IUnitOfWork;
+
+import com.google.common.base.Predicates;
+import com.google.inject.Inject;
+
+import de.nittka.tooling.xarchive.xarchive.Search;
+
+public class XarchiveSearchHandler extends AbstractHandler {
+
+	@Inject
+	private EObjectAtOffsetHelper eObjectAtOffsetHelper;
+	@Inject
+	private Provider<XarchiveSearchQuery> queryProvider;
+
+	//entry point adapted from FindReferencesHandler
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		try {
+			XtextEditor editor = EditorUtils.getActiveXtextEditor(event);
+			if (editor != null) {
+				final ITextSelection selection = (ITextSelection) editor.getSelectionProvider().getSelection();
+				editor.getDocument().readOnly(new IUnitOfWork.Void<XtextResource>() {
+					@Override
+					public void process(XtextResource state) throws Exception {
+						EObject target = eObjectAtOffsetHelper.resolveContainedElementAt(state, selection.getOffset());
+						//at this point we just make sure that seach is only executed on search objects
+						Search search=EcoreUtil2.getContainerOfType(target, Search.class);
+						if(search !=null){
+							execute(search);
+						}
+					}
+				});
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	//the essential parts from ReferenceQueryExecutor
+	public void execute(Search search) {
+		XarchiveSearchQuery query=queryProvider.get();
+		String searchName=search.getId()!=null?search.getId():"unnamed Xarchive search";
+		//dummy initialization of ReferenceQuery
+		query.init(null, Predicates.alwaysTrue(), searchName);
+		//the essential initialization of XarchiveSearchQuery (the actual search context)
+		query.setSearch(search);
+		NewSearchUI.activateSearchResultView();
+		NewSearchUI.runQueryInBackground(query);
+	}
+}

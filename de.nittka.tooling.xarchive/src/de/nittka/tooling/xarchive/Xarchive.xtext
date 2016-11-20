@@ -5,7 +5,11 @@ generate xarchive "http://www.nittka.de/tooling/xarchive/Xarchive"
 Model:
 	ArchiveConfig|Document;
 
-ArchiveConfig: {ArchiveConfig}types+=CategoryType*;
+ArchiveConfig: 
+	{ArchiveConfig}
+	types+=CategoryType*
+	searches+=Search*
+;
 CategoryType: "categoriesFor" name=ID required?="required"? "{"
 	category+=Category (","category+=Category)*
 	"}"
@@ -16,6 +20,10 @@ Category: name=ID (description=STRING)?
 		|
 		("shortcutFor" "(" shortCuts+=ShortCut ("," shortCuts+=ShortCut)*")")
 	)?;
+
+Search:
+	"search" ("named" id=ID)?
+;
 
 Document: 
 	(futureDoc?="@futureDoc")?

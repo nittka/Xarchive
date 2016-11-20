@@ -18,6 +18,15 @@
     <extension
         point="org.eclipse.ui.handlers">
         <handler
+            class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:de.nittka.tooling.xarchive.ui.search.XarchiveSearchHandler"
+            commandId="de.nittka.tooling.xarchive.ui.search">
+            <activeWhen>
+                <reference
+                    definitionId="de.nittka.tooling.xarchive.Xarchive.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
             class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
             commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
             <activeWhen>
@@ -139,6 +148,12 @@
             categoryId="org.eclipse.ui.category.edit"
             description="Copy the qualified name for the selected element"
             name="Copy Qualified Name">
+      </command>
+      <command
+            id="de.nittka.tooling.xarchive.ui.search"
+            categoryId="org.eclipse.ui.category.search"
+            description="Executes the search corresponding to the context"
+            name="Xarchive Search">
       </command>
     </extension>
     <extension point="org.eclipse.ui.menus">
@@ -379,6 +394,15 @@
             class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
             extensions="xarch">
     </provider>
+  </extension>
+  <extension
+        point="org.eclipse.ui.bindings">
+     <key
+           commandId="de.nittka.tooling.xarchive.ui.search"
+           contextId="org.eclipse.xtext.ui.XtextEditorScope"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+           sequence="M1+X">
+     </key>
   </extension>
 
 </plugin>
