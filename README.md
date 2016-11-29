@@ -10,7 +10,7 @@ This is intended to be a lightweight Xtext based Document management system. Wit
 Supported meta data includes
 * document name — name of the document
 * date (precision year, month, day) — indicating the date for which the document is relevant
-* entry date — indicating the date when the document was received
+* (hard copy) reference — a file refernce indicating where a hardcopy of the file is stored
 * list of (self defined) categories
 * list of tags — additional keywords applying to the document
 * description — **short** text describing the document
@@ -75,7 +75,7 @@ categoriesFor common {
 invoiceScrubFast.jpg
 
 date 2015-10-19
-entryDate 2015-11-07 
+reference INV-2015-D6 
 
 status: done;  
 documentType: invoice, guarantee;
@@ -118,7 +118,7 @@ common:schoolFeeDaughter;
   * keywords
   * categories
   * documents for document references
-  * write your own templates for common document types
+  * write your own templates for common document types (some sample templates are shipped)
 * Validation (+ Quickfixes for some)
   * document not found
   * missing `xarc` file for a document

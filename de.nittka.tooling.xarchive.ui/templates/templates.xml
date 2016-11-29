@@ -10,4 +10,13 @@
     name="category"
     >${type:CrossReference(CategoryRef.type)}: ${category};
 </template>
+  <template
+    id="entryDateReference"
+    autoinsert="false"
+    context="de.nittka.tooling.xarchive.Xarchive.kw_reference"
+    deleted="false"
+    description="entry date based file reference"
+    enabled="false"
+    name="entryDate"
+    >reference ${today}</template>
   </templates>

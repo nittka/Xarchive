@@ -9,7 +9,9 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler;
 import org.eclipse.xtext.ui.editor.folding.IFoldingRegionProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
+import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
 
+import de.nittka.tooling.xarchive.ui.contentassist.XarchiveTemplateContextType;
 import de.nittka.tooling.xarchive.ui.folding.XarchiveFoldingRegionProvider;
 import de.nittka.tooling.xarchive.ui.linking.XarchiveFindReferencesHandler;
 import de.nittka.tooling.xarchive.ui.linking.XarchiveHyperlinkHelper;
@@ -53,5 +55,9 @@ public class XarchiveUiModule extends de.nittka.tooling.xarchive.ui.AbstractXarc
 	public Class<? extends FindReferencesHandler> bindXarchiveReferenceFinder(){
 		return XarchiveFindReferencesHandler.class;
 	}
+
+	public Class<? extends XtextTemplateContextType> bindTemplateContextType() {
+		return XarchiveTemplateContextType.class;
+}
 
 }

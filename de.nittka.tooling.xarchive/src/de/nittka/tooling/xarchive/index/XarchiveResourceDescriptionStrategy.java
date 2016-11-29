@@ -29,8 +29,8 @@ public class XarchiveResourceDescriptionStrategy extends
 				if(doc.getDocDate()!=null){
 					map.put("date", doc.getDocDate());
 				}
-				if(doc.getEntryDate()!=null){
-					map.put("entryDate", doc.getEntryDate());
+				if(doc.getReference()!=null){
+					map.put("reference", doc.getReference());
 				}
 				if(doc.getDescription()!=null){
 					map.put("desc", doc.getDescription());

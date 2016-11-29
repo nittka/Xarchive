@@ -31,7 +31,7 @@ Document:
 	(
 		("date" docDate=ID)?
 			&
-		("entryDate" entryDate=ID)?
+		("reference" reference=ID)?
 	)
 	categories+=CategoryRef*
 	(("tags"":" tags+=ID)("," tags+=ID)*";")?
