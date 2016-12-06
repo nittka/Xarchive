@@ -3,10 +3,10 @@
  */
 package de.nittka.tooling.xarchive.formatting
 
+import de.nittka.tooling.xarchive.services.XarchiveGrammarAccess
+import javax.inject.Inject
 import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter
 import org.eclipse.xtext.formatting.impl.FormattingConfig
-// import com.google.inject.Inject;
-// import de.nittka.tooling.xarchive.services.XarchiveGrammarAccess
 
 /**
  * This class contains custom formatting description.
@@ -18,13 +18,45 @@ import org.eclipse.xtext.formatting.impl.FormattingConfig
  */
 class XarchiveFormatter extends AbstractDeclarativeFormatter {
 
-//	@Inject extension XarchiveGrammarAccess
+	@Inject extension XarchiveGrammarAccess
 	
 	override protected void configureFormatting(FormattingConfig c) {
-// It's usually a good idea to activate the following three statements.
-// They will add and preserve newlines around comments
-//		c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
-//		c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)
-//		c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)
+		//general stuff
+		// It's usually a good idea to activate the following three statements.
+		// They will add and preserve newlines around comments
+		c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
+		c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)
+		c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)
+		findKeywords(",", ":", ";").forEach[
+			c.setNoSpace.before(it)
+		]
+
+		//document
+		c.setLinewrap(2).after(documentFileNameRule)
+		c.setLinewrap(1, 1, 2).before(documentAccess.dateKeyword_2_0_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.referenceKeyword_2_1_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.tagsKeyword_4_0_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.descriptionKeyword_5_0)
+		c.setLinewrap(1, 1, 2).before(categoryRefRule)
+		c.setLinewrap(1, 1, 2).before(seeAlsoRule)
+		c.setLinewrap(1, 1, 2).before(FULLTEXTRule)
+
+		//config
+		c.setLinewrap(2).after(categoryTypeAccess.rightCurlyBracketKeyword_6)
+
+		c.setLinewrap(1).around(categoryTypeAccess.categoryAssignment_4)
+		c.setLinewrap(1).around(categoryTypeAccess.categoryAssignment_5_1)
+		c.setIndentationIncrement.after(categoryTypeAccess.leftCurlyBracketKeyword_3)
+		c.setIndentationDecrement.before(categoryTypeAccess.rightCurlyBracketKeyword_6)
+
+		c.setLinewrap(1).around(categoryAccess.categoryAssignment_2_0_1)
+		c.setLinewrap(1).around(categoryAccess.categoryAssignment_2_0_2_1)
+		c.setIndentationIncrement.after(categoryAccess.leftCurlyBracketKeyword_2_0_0)
+		c.setIndentationDecrement.before(categoryAccess.rightCurlyBracketKeyword_2_0_3)
+
+		c.setLinewrap(1).around(categoryAccess.shortCutsAssignment_2_1_2)
+		c.setLinewrap(1).around(categoryAccess.shortCutsAssignment_2_1_3_1)
+		c.setIndentationIncrement.after(categoryAccess.leftParenthesisKeyword_2_1_1)
+		c.setIndentationDecrement.before(categoryAccess.rightParenthesisKeyword_2_1_4)
 	}
 }
