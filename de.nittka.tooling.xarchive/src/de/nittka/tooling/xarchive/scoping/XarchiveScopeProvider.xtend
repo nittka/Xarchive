@@ -32,6 +32,6 @@ class XarchiveScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 
 	def IScope scope_SearchReference_search(ArchiveConfig context, EReference ref){
-		return Scopes.scopeFor(context.searches, [QualifiedName.create(id)], IScope.NULLSCOPE);
+		return Scopes.scopeFor(context.searches.filter[id!==null], [QualifiedName.create(id)], IScope.NULLSCOPE);
 	}
 }
