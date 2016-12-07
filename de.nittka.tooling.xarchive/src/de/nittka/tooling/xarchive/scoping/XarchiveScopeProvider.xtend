@@ -3,11 +3,13 @@
  */
 package de.nittka.tooling.xarchive.scoping
 
+import de.nittka.tooling.xarchive.xarchive.ArchiveConfig
 import de.nittka.tooling.xarchive.xarchive.Category
 import de.nittka.tooling.xarchive.xarchive.CategoryRef
 import de.nittka.tooling.xarchive.xarchive.ShortCut
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
@@ -27,5 +29,9 @@ class XarchiveScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def IScope scope_ShortCut_category(ShortCut context, EReference ref){
 		return Scopes.scopeFor(EcoreUtil2.getAllContentsOfType(context.type, Category));
+	}
+
+	def IScope scope_SearchReference_search(ArchiveConfig context, EReference ref){
+		return Scopes.scopeFor(context.searches, [QualifiedName.create(id)], IScope.NULLSCOPE);
 	}
 }

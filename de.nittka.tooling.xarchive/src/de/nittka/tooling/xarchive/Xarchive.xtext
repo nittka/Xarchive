@@ -23,6 +23,50 @@ Category: name=ID (description=STRING)?
 
 Search:
 	"search" ("named" id=ID)?
+	search=SearchExpression
+;
+
+SearchExpression returns SearchExpression:
+	OrSearchExpression
+;
+
+OrSearchExpression returns SearchExpression:
+	AndSearchExpression ({OrSearchExpression.left=current} "||" right=AndSearchExpression)*
+;
+
+AndSearchExpression returns SearchExpression:
+	AtomicSearchExpression ({AndSearchExpression.left=current} "&&" right=AtomicSearchExpression)*
+;
+
+AtomicSearchExpression returns SearchExpression:
+	{NegationSearchExpression}'!' negated=AtomicSearchExpression |
+	SearchReference |
+	ParenthesizedSearchExpression |
+	CategorySearch|
+	TagSearch|
+	DescriptionSearch
+;
+
+
+ParenthesizedSearchExpression returns SearchExpression:
+	'(' SearchExpression')'
+;
+
+SearchReference returns SearchExpression:
+	"reuse" {SearchReference} search=[Search]
+;
+
+CategorySearch returns SearchExpression:
+	"category" {CategorySearch} category=ShortCut
+	(orAbove?="orAbove"? & orBelow?="orBelow"?)
+;
+
+TagSearch returns SearchExpression:
+	"tag" {TagSearch} tag=ID
+;
+
+DescriptionSearch returns SearchExpression:
+	"description" {DescriptionSearch} description=STRING
 ;
 
 Document: 

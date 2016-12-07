@@ -58,5 +58,24 @@ class XarchiveFormatter extends AbstractDeclarativeFormatter {
 		c.setLinewrap(1).around(categoryAccess.shortCutsAssignment_2_1_3_1)
 		c.setIndentationIncrement.after(categoryAccess.leftParenthesisKeyword_2_1_1)
 		c.setIndentationDecrement.before(categoryAccess.rightParenthesisKeyword_2_1_4)
+
+		//search
+		c.setLinewrap(2).before(searchAccess.searchKeyword_0)
+		c.setIndentationIncrement.before(searchAccess.searchAssignment_2)
+		c.setIndentationDecrement.after(searchAccess.searchAssignment_2)
+		c.setLinewrap(1).before(searchAccess.searchAssignment_2)
+
+		c.setIndentationIncrement.before(andSearchExpressionAccess.ampersandAmpersandKeyword_1_1)
+		c.setIndentationDecrement.after(andSearchExpressionAccess.ampersandAmpersandKeyword_1_1)
+		c.setLinewrap(1).around(andSearchExpressionAccess.ampersandAmpersandKeyword_1_1)
+
+		c.setIndentationIncrement.before(orSearchExpressionAccess.verticalLineVerticalLineKeyword_1_1)
+		c.setIndentationDecrement.after(orSearchExpressionAccess.verticalLineVerticalLineKeyword_1_1)
+		c.setLinewrap(1).around(orSearchExpressionAccess.verticalLineVerticalLineKeyword_1_1)
+
+		c.setLinewrap(1).around(parenthesizedSearchExpressionAccess.leftParenthesisKeyword_0)
+		c.setIndentationIncrement.after(parenthesizedSearchExpressionAccess.leftParenthesisKeyword_0)
+		c.setLinewrap(1).before(parenthesizedSearchExpressionAccess.rightParenthesisKeyword_2)
+		c.setIndentationDecrement.before(parenthesizedSearchExpressionAccess.rightParenthesisKeyword_2)
 	}
 }
