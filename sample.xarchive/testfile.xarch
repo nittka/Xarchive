@@ -1,0 +1,16 @@
+testfile.jpg
+date 2016-12-07
+
+status:done;
+person:dad;
+
+tags: t1, t2;
+description "some documents"
+
+->comingSoon "this document is relevant for the referenced one"
+
+'''
+Document content
+for 
+full text search
+'''

@@ -1,0 +1,71 @@
+//a category type may be mandatory
+categoriesFor status required {
+  done,
+  //a category may have a description (e.g. shown in hover)
+  metaDataIncomplete "doc is registered, but meta data has to be completed",
+  //a category may have sub categories
+  todo {
+    URGENT,
+    Normal,
+    eventually,
+    unPaid
+  }
+}
+
+categoriesFor person {
+  parents {
+    mom, dad
+  },
+  children {
+    daughter, son
+  }
+}
+
+categoriesFor documentType {
+  contract, receipt, pass, invoice, guarantee
+}
+
+categoriesFor scope {
+  tax, work, health, housing, school
+}
+
+categoriesFor common {
+  //a category may be a short cut for a combination of other categories
+  schoolFeeDaughter shortcutFor (
+    person:daughter,
+    documentType: invoice,
+    scope:school,
+    scope: tax
+  ),
+  unpaidBill shortcutFor (
+    status:unPaid,
+    documentType:invoice
+  )
+}
+
+
+
+//invoke a search by pressing ctrl-x somewhere within the search definition
+
+//files whose description contains doc
+search description "doc"
+
+//files tagged with t1
+search tag t1
+
+//files not tagged with t2
+search !tag t2
+
+//named search for files with category dad (perfect match)
+search named dads_files
+	category person:dad
+
+//named search for files with category todo (including sub categories)
+search named withTodo
+	category status:todo orBelow
+
+//logical operation illustration reusing existing search definitions
+search
+	reuse dads_files
+	&&
+	!(tag t1 || !reuse withTodo)

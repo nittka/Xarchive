@@ -121,7 +121,7 @@ common:schoolFeeDaughter;
   * write your own templates for common document types (some sample templates are shipped)
 * Validation (+ Quickfixes for some)
   * document not found
-  * missing `xarc` file for a document
+  * missing `xarch` file for a document
   * missing mandatory category (if type is marked as required)
 * Navigation using F3
   * opening the original document
@@ -129,6 +129,10 @@ common:schoolFeeDaughter;
   * navigate to the referenced document
 * Find references `shift-ctrl-g`
   * where is the given category used (excluding short cuts or via category hierarchy)
+* define searches (invoked with `ctrl-x` on the definition); matches are shown in the search view
+  * search referenced categories, tags and descriptions
+  * boolean operations
+  * combine existing (named) searches
 
 An extension point allows an additional plugin to provide the full text search string for a given file, e.g. by using some OCR software.
 The new file wizard will then automatically include this string in the file. 

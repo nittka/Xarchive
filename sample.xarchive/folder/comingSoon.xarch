@@ -1,0 +1,18 @@
+/* the futureDoc annotation allows you create a description
+ * for document you have not yet received
+ * 
+ * this can be useful for see also references
+ * e.g. donation receipts pointing to the tax form they will be relevant for
+ * 
+ */ 
+@futureDoc
+comingSoon.jpg
+date 2017
+
+status:URGENT;
+person:dad;
+scope:tax;
+
+tags: t3;
+
+description "tax 2017"
