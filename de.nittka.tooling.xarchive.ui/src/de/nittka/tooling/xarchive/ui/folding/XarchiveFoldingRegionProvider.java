@@ -25,6 +25,10 @@ public class XarchiveFoldingRegionProvider extends DefaultFoldingRegionProvider 
 
 	private int numberOfLines(EObject e){
 		ICompositeNode node = NodeModelUtils.findActualNodeFor(e);
-		return node.getEndLine()-node.getStartLine();
+		if(node!=null){
+			return node.getEndLine()-node.getStartLine();
+		}else{
+			return -1;
+		}
 	}
 }
