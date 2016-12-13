@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.nittka.tooling.xarchive.feature_1.0.0.201612132142.jar" id="de.nittka.tooling.xarchive.feature" version="1.0.0.201612132142">
+      <category name="de.nittka.tooling.xarchive.category"/>
+   </feature>
+   <category-def name="de.nittka.tooling.xarchive.category" label="Xarchive"/>
+</site>
