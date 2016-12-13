@@ -4,7 +4,10 @@
 package de.nittka.tooling.xarchive.ui.outline
 
 import de.nittka.tooling.xarchive.xarchive.Document
+import org.eclipse.xtext.ui.editor.outline.IOutlineNode
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider
+import de.nittka.tooling.xarchive.xarchive.Category
+import de.nittka.tooling.xarchive.xarchive.Search
 
 /**
  * Customization of the default outline structure.
@@ -13,8 +16,37 @@ import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider
  */
 class XarchiveOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
-	def boolean isLeaf(Document doc){
+	def dispatch boolean isLeaf(Document doc){
 		return true;
 	}
 
+	def dispatch text(Document doc){
+		val file=doc.file
+		return '''«file.fileName».«file.extension»'''
+	}
+
+	def dispatch void createChildren(IOutlineNode parentNode, Document doc){
+		//NOOP
+	}
+
+
+	def dispatch text(Category cat){
+		return cat.name
+	}
+
+	def dispatch boolean isLeaf(Search search){
+		return true;
+	}
+
+	def dispatch void createChildren(IOutlineNode parentNode, Search search){
+		//NOOP
+	}
+
+	def dispatch text(Search search){
+		if(search.id!==null){
+			search.id
+		}else{
+			"unnamed search"
+		}
+	}
 }
