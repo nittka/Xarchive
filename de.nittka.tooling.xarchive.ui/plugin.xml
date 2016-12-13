@@ -2,7 +2,6 @@
 <?eclipse version="3.0"?>
 
 <plugin>
-   <extension-point id="ocrprovider" name="Xarchive OCR" schema="schema/xarchive_ocr.exsd"/>
 
     <extension
             point="org.eclipse.ui.editors">
@@ -151,7 +150,7 @@
       </command>
       <command
             id="de.nittka.tooling.xarchive.ui.search"
-            categoryId="org.eclipse.ui.category.search"
+            categoryId="org.eclipse.ui.category.edit"
             description="Executes the search corresponding to the context"
             name="Xarchive Search">
       </command>
@@ -366,6 +365,20 @@
             </visibleWhen>
          </command>
       </menuContribution>
+      <menuContribution
+          locationURI="popup:#TextEditorContext?before=group.edit">
+       <command
+             commandId="de.nittka.tooling.xarchive.ui.search"
+             style="push"
+             tooltip="Xarchive Search">
+          <visibleWhen
+                checkEnabled="false">
+             <reference
+                   definitionId="de.nittka.tooling.xarchive.Xarchive.Editor.opened">
+             </reference>
+          </visibleWhen>
+       </command>
+    </menuContribution>
    </extension>
    <extension point="org.eclipse.ui.preferencePages">
 	    <page
@@ -401,7 +414,7 @@
            commandId="de.nittka.tooling.xarchive.ui.search"
            contextId="org.eclipse.xtext.ui.XtextEditorScope"
            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-           sequence="M1+X">
+           sequence="M3+X">
      </key>
   </extension>
 

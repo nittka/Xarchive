@@ -15,7 +15,7 @@ Supported meta data includes
 * list of tags — additional keywords applying to the document
 * description — **short** text describing the document
 * list of references to other documents (along with description of the reference)
-* full text search string — e.g. from OCR
+* full text search string — e.g. obtained via OCR
 
 ##Syntax
 
@@ -119,23 +119,20 @@ common:schoolFeeDaughter;
   * categories
   * documents for document references
   * write your own templates for common document types (some sample templates are shipped)
-* Validation (+ Quickfixes for some)
+* validation (+ quickfixes for some)
   * document not found
   * missing `xarch` file for a document
   * missing mandatory category (if type is marked as required)
-* Navigation using F3
+* navigation using F3
   * opening the original document
   * navigate to the category definition
   * navigate to the referenced document
-* Find references `shift-ctrl-g`
+* find references `Shift-Ctrl-G`
   * where is the given category used (excluding short cuts or via category hierarchy)
-* define searches (invoked with `ctrl-x` on the definition); matches are shown in the search view
+* define searches (invoked with `Alt-X` on the definition); matches are shown in the search view
   * search referenced categories, tags and descriptions
   * boolean operations
   * combine existing (named) searches
-
-An extension point allows an additional plugin to provide the full text search string for a given file, e.g. by using some OCR software.
-The new file wizard will then automatically include this string in the file. 
 
 ##Limitations
 
