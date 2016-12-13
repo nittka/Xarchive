@@ -19,7 +19,7 @@ Require-Bundle: de.nittka.tooling.xarchive;visibility:=reexport,
  org.eclipse.search
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.nittka.tooling.xarchive.ui,
  de.nittka.tooling.xarchive.ui.contentassist,
  de.nittka.tooling.xarchive.ui.contentassist.antlr,
