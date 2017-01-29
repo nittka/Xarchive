@@ -14,7 +14,7 @@ Supported meta data includes
 * list of (self defined) categories
 * list of tags — additional keywords applying to the document
 * description — **short** text describing the document
-* list of references to other documents (along with description of the reference)
+* list of (see also) references to other documents (along with description of the reference)
 * full text search string — e.g. obtained via OCR
 
 ##Syntax
@@ -71,10 +71,14 @@ categoriesFor common {
 ### xarch file
 
 ```
-//file name of the document
+//file name of the (primary) document
 scrubFast.jpg
 //optional namespace for unique seeAlso references
 namespace invoices2012
+//an optional list of (secondary) documents tightly connected with the current one
+//(which have no separate xarch description)
++ scrubReceipt_.jpg
++ scrubWarrenty_.jpg
 
 date 2015-10-19
 reference INV-2015-D6 
@@ -123,10 +127,10 @@ common:schoolFeeDaughter;
   * write your own templates for common document types (some sample templates are shipped)
 * validation (+ quickfixes for some)
   * document not found
-  * missing `xarch` file for a document
+  * missing `xarch` file for a document (suppressed for secondary documents whose file name ends with underscore)
   * missing mandatory category (if type is marked as required)
 * navigation using F3
-  * opening the original document
+  * opening the original document (as well as additional files)
   * navigate to the category definition
   * navigate to the referenced document
 * find references `Shift-Ctrl-G`

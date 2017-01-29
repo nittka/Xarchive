@@ -1,5 +1,8 @@
 testfile2.jpg
-status:URGENT;
-person:dad;
++ additional1_.txt
++ additional2_.txt
+
+status: URGENT;
+person: dad;
 
 tags: t3;

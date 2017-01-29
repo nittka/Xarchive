@@ -53,7 +53,7 @@ class XarchiveValidator extends AbstractXarchiveValidator {
 	@Check
 	def checkFileName(DocumentFileName file) {
 		val resourceName=file.eResource.URI.trimFileExtension.lastSegment
-		if(file.fileName!=resourceName){
+		if(file.eContainingFeature==XarchivePackage.Literals.DOCUMENT__FILE && file.fileName!=resourceName){
 			error('''illegal file name: '«resourceName»' expected''', XarchivePackage.Literals.DOCUMENT_FILE_NAME__FILE_NAME, FILE_NAME, file.fileName, resourceName)
 		}
 	}

@@ -45,6 +45,7 @@ class XarchiveUIValidator extends XarchiveValidator {
 					IContainer: return true
 					IFile case resource.fileExtension=="xarch": return false
 					IFile case resource.name==".project": return false
+					IFile case resource.location.removeFileExtension.lastSegment.endsWith("_"): return false
 					IFile: {
 						val target=XarchiveFileURIs.getXarchiveFile(resource)
 						if(!target.exists){

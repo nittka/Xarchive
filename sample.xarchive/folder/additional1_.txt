@@ -1,0 +1,5 @@
+In order to prevent duplicate xarch description files (multiple files belonging together),
+you can have a primary file with a description and an arbitrary number of additional files.
+
+Secondary files have a name ending with underscore - this prevents the missing description
+validation from triggering.

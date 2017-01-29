@@ -73,6 +73,7 @@ Document:
 	(futureDoc?="@futureDoc")?
 	file=DocumentFileName
 	("namespace" namespace=ID)?
+	("+" additionalFiles+=DocumentFileName)*
 	(
 		("date" docDate=ID)?
 			&
