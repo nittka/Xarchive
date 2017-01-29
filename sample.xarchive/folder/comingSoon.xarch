@@ -7,6 +7,10 @@
  */ 
 @futureDoc
 comingSoon.jpg
+
+//optional namespace, in case you have many files with the same name
+namespace invoices2017
+
 date 2017
 
 status:URGENT;

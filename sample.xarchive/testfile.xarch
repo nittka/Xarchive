@@ -7,7 +7,7 @@ person:dad;
 tags: t1, t2;
 description "some documents"
 
-->comingSoon "this document is relevant for the referenced one"
+->invoices2017.comingSoon "this document is relevant for the referenced one"
 
 '''
 Document content

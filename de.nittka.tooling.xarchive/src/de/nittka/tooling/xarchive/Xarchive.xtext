@@ -72,6 +72,7 @@ DescriptionSearch returns SearchExpression:
 Document: 
 	(futureDoc?="@futureDoc")?
 	file=DocumentFileName
+	("namespace" namespace=ID)?
 	(
 		("date" docDate=ID)?
 			&
@@ -88,7 +89,9 @@ FullTextForSearch: text=FULLTEXT;
 
 CategoryRef: type=[CategoryType]":" (categories+=[Category] ("," categories+=[Category])*)?";";
 ShortCut: type=[CategoryType]":" category=[Category];
-SeeAlso: "->" ref=[Document] (description=STRING)?;
+SeeAlso: "->" ref=[Document|FQN] (description=STRING)?;
+
+FQN: (ID'.')?ID;
 
 terminal ID: ('a'..'z'|'A'..'Z'|'_'|'0'..'9'|'-')*;
 terminal FULLTEXT: "'''" IN_FULLTEXT* ("'''"| ("'" "'"?)? EOF);

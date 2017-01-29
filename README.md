@@ -72,7 +72,9 @@ categoriesFor common {
 
 ```
 //file name of the document
-invoiceScrubFast.jpg
+scrubFast.jpg
+//optional namespace for unique seeAlso references
+namespace invoices2012
 
 date 2015-10-19
 reference INV-2015-D6 
@@ -85,7 +87,7 @@ tags: dishwasher, specialOffer;
 description "new dishwasher bought at SuperTec for €395.95"
 
 //see also reference to another document with optional description
-->invoiceScrubSlow "old broken dishwasher"
+->invoices1995.scrubSlow "old broken dishwasher"
 
 '''
 This is a full text of the document for text search.

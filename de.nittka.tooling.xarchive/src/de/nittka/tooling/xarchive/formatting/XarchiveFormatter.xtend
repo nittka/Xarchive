@@ -33,10 +33,11 @@ class XarchiveFormatter extends AbstractDeclarativeFormatter {
 
 		//document
 		c.setLinewrap(2).after(documentFileNameRule)
-		c.setLinewrap(1, 1, 2).before(documentAccess.dateKeyword_2_0_0)
-		c.setLinewrap(1, 1, 2).before(documentAccess.referenceKeyword_2_1_0)
-		c.setLinewrap(1, 1, 2).before(documentAccess.tagsKeyword_4_0_0)
-		c.setLinewrap(1, 1, 2).before(documentAccess.descriptionKeyword_5_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.namespaceKeyword_2_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.dateKeyword_3_0_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.referenceKeyword_3_1_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.tagsKeyword_5_0_0)
+		c.setLinewrap(1, 1, 2).before(documentAccess.descriptionKeyword_6_0)
 		c.setLinewrap(1, 1, 2).before(categoryRefRule)
 		c.setLinewrap(1, 1, 2).before(seeAlsoRule)
 		c.setLinewrap(1, 1, 2).before(FULLTEXTRule)

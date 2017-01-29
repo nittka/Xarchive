@@ -13,7 +13,11 @@ public class XarchiveNameProvider extends SimpleNameProvider {
 		if(obj instanceof Document){
 			Document doc=(Document)obj;
 			if(doc.getFile()!=null){
-				return QualifiedName.create(doc.getFile().getFileName());
+				if(doc.getNamespace()!=null){
+					return QualifiedName.create(doc.getNamespace(), doc.getFile().getFileName());
+				}else{
+					return QualifiedName.create(doc.getFile().getFileName());
+				}
 			}
 		}
 		return super.getFullyQualifiedName(obj);
