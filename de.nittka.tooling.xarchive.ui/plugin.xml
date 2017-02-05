@@ -26,6 +26,15 @@
             </activeWhen>
         </handler>
         <handler
+            class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:de.nittka.tooling.xarchive.ui.search.XarchiveUsedTagsHandler"
+            commandId="de.nittka.tooling.xarchive.ui.tags">
+            <activeWhen>
+                <reference
+                    definitionId="de.nittka.tooling.xarchive.Xarchive.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
             class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
             commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
             <activeWhen>
@@ -153,6 +162,12 @@
             categoryId="org.eclipse.ui.category.edit"
             description="Executes the search corresponding to the context"
             name="Xarchive Search">
+      </command>
+      <command
+            id="de.nittka.tooling.xarchive.ui.tags"
+            categoryId="org.eclipse.ui.category.edit"
+            description="Copies the tags used in Xarchive files to the clipboard"
+            name="Copy Used Tags">
       </command>
     </extension>
     <extension point="org.eclipse.ui.menus">
@@ -371,6 +386,20 @@
              commandId="de.nittka.tooling.xarchive.ui.search"
              style="push"
              tooltip="Xarchive Search">
+          <visibleWhen
+                checkEnabled="false">
+             <reference
+                   definitionId="de.nittka.tooling.xarchive.Xarchive.Editor.opened">
+             </reference>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+      <menuContribution
+          locationURI="popup:#TextEditorContext?before=group.edit">
+       <command
+             commandId="de.nittka.tooling.xarchive.ui.tags"
+             style="push"
+             tooltip="Xarchive Tags">
           <visibleWhen
                 checkEnabled="false">
              <reference
