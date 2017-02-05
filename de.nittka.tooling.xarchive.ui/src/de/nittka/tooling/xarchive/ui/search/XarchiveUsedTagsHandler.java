@@ -2,9 +2,10 @@ package de.nittka.tooling.xarchive.ui.search;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
@@ -43,7 +44,7 @@ public class XarchiveUsedTagsHandler  extends AbstractHandler{
 				editor.getDocument().readOnly(new IUnitOfWork.Void<XtextResource>() {
 					@Override
 					public void process(XtextResource state) throws Exception {
-						Set<String> tags=new HashSet<>();
+						Map<String, AtomicInteger> tagCount=new HashMap<>();
 						IResourceDescriptions index = indexProvider.getResourceDescriptions(state);
 						Manager containerManager = serviceProvider.getContainerManager();
 
@@ -53,14 +54,12 @@ public class XarchiveUsedTagsHandler  extends AbstractHandler{
 								String optTags = desc.getUserData("tags");
 								if(optTags!=null){
 									for (String tag : Splitter.on(";").trimResults().split(optTags)) {
-										tags.add(tag);
+										add(tag, tagCount);
 									}
 								}
 							};
 						}
-						List<String>sortedTags=new ArrayList<>(tags);
-						Collections.sort(sortedTags);
-						ClipboardUtil.copy(Joiner.on("\n").skipNulls().join(sortedTags));
+						toClipBoard(tagCount);
 					}
 				});
 			}
@@ -68,6 +67,28 @@ public class XarchiveUsedTagsHandler  extends AbstractHandler{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private void toClipBoard(Map<String, AtomicInteger> tagCount){
+		List<String>sortedTags=new ArrayList<>(tagCount.keySet());
+		Collections.sort(sortedTags);
+		List<String> tagAndCount=new ArrayList<>();
+		for (String tag : sortedTags) {
+			tagAndCount.add(tag+" ("+tagCount.get(tag)+")");
+		}
+		ClipboardUtil.copy(Joiner.on("\n").join(tagAndCount));
+		
+	}
+
+	private void add(String tag, Map<String, AtomicInteger> tagCount){
+		if(tag!=null){
+			AtomicInteger count=tagCount.get(tag);
+			if(count==null){
+				count=new AtomicInteger();
+				tagCount.put(tag, count);
+			}
+			count.incrementAndGet();
+		}
 	}
 
 }
