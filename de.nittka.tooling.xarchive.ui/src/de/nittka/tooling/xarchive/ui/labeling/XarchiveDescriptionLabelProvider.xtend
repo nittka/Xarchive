@@ -27,8 +27,10 @@ class XarchiveDescriptionLabelProvider extends DefaultDescriptionLabelProvider {
 		}
 		super.text(ele)
 	}
-//	 
-//	override image(IEObjectDescription ele) {
-//		ele.EClass.name + '.gif'
-//	}	 
+
+	override image(IEObjectDescription ele) {
+		if(ele.EClass===XarchivePackage.Literals.DOCUMENT){
+			return 'file_obj.gif'
+		}
+	}
 }

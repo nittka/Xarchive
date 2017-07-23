@@ -4,18 +4,23 @@
 package de.nittka.tooling.xarchive.ui.labeling
 
 import com.google.inject.Inject
-import de.nittka.tooling.xarchive.xarchive.Document
 import de.nittka.tooling.xarchive.xarchive.Category
+import de.nittka.tooling.xarchive.xarchive.Document
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
+import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider
+import de.nittka.tooling.xarchive.xarchive.Search
+import de.nittka.tooling.xarchive.xarchive.CategoryType
+import de.nittka.tooling.xarchive.xarchive.ArchiveConfig
 
 /**
  * Provides labels for a EObjects.
  * 
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#labelProvider
  */
-class XarchiveLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider {
+class XarchiveLabelProvider extends DefaultEObjectLabelProvider {
 
 	@Inject
-	new(org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider delegate) {
+	new(AdapterFactoryLabelProvider delegate) {
 		super(delegate);
 	}
 
@@ -35,7 +40,23 @@ class XarchiveLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLab
 		}
 	}
 
-//	def image(Greeting ele) {
-//		'Greeting.gif'
-//	}
+	def image(ArchiveConfig ele) {
+		'prop_ps.gif'
+	}
+
+	def image(Document ele) {
+		'file_obj.gif'
+	}
+
+	def image(Category ele) {
+		'tree_mode.gif'
+	}
+
+	def image(CategoryType ele) {
+		'tree_mode.gif'
+	}
+
+	def image(Search ele) {
+		'insp_sbook.gif'
+	}
 }
