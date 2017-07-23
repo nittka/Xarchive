@@ -467,5 +467,9 @@
            sequence="M3+X">
      </key>
   </extension>
-
+  <extension
+      point="org.eclipse.ui.ide.resourceFilters">
+    <filter selected="false" pattern="*.pdf"></filter>
+    <filter selected="false" pattern="*.jpg"></filter>
+  </extension>
 </plugin>
