@@ -38,6 +38,10 @@ class XarchiveOutlineTreeProvider extends DefaultOutlineTreeProvider {
 		return true;
 	}
 
+	def dispatch boolean isLeaf(Category category){
+		return category.category.empty;
+	}
+
 	def dispatch void createChildren(IOutlineNode parentNode, Search search){
 		//NOOP
 	}
