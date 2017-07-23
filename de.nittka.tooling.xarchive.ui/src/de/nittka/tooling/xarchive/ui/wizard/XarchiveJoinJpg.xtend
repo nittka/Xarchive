@@ -18,7 +18,6 @@ class XarchiveJoinJpg extends AbstractHandler {
 	}
 	
 	override execute(ExecutionEvent event) throws ExecutionException {
-		println(event.parameters)
 		val currentSelection=PlatformUI?.getWorkbench()?.activeWorkbenchWindow?.activePage?.selection
 		if(currentSelection instanceof StructuredSelection){
 			val selection=(currentSelection as StructuredSelection).iterator.toList
