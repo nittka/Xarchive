@@ -52,6 +52,10 @@
             </reference>
          </activeWhen>
       	</handler>
+        <handler
+            class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:de.nittka.tooling.xarchive.ui.wizard.XarchiveJoinJpg"
+            commandId="de.nittka.tooling.xarchive.Xarchive.joinjpg">
+      	</handler>
       	<!-- copy qualified name -->
         <handler
             class="de.nittka.tooling.xarchive.ui.XarchiveExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
@@ -169,6 +173,12 @@
             description="Copies the tags used in Xarchive files to the clipboard"
             name="Copy Used Tags">
       </command>
+      <command
+            id="de.nittka.tooling.xarchive.Xarchive.joinjpg"
+            categoryId="org.eclipse.ui.category.edit"
+            description="Prepares a tex file for joining multiple jpg files into one pdf file."
+            name="Join Files">
+      </command>
     </extension>
     <extension point="org.eclipse.ui.menus">
         <menuContribution
@@ -184,6 +194,17 @@
             </visibleWhen>
          </command>  
          </menuContribution>
+         <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         	<command commandId="de.nittka.tooling.xarchive.Xarchive.joinjpg"
+            	style="push" tooltip="Join Files">
+         	</command>  
+         </menuContribution>
+         <menuContribution locationURI="menu:edit?after=additions">
+         	<command commandId="de.nittka.tooling.xarchive.Xarchive.joinjpg"
+            	style="push" tooltip="Join Files">
+         	</command>  
+         </menuContribution>
+
          <!-- copy qualified name -->
          <menuContribution locationURI="popup:#TextEditorContext?after=copy">
          	<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName" 
