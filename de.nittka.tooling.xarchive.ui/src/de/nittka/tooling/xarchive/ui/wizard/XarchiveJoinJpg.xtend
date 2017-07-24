@@ -14,27 +14,33 @@ import org.eclipse.xtext.util.StringInputStream
 class XarchiveJoinJpg extends AbstractHandler {
 
 	override isEnabled() {
-		true
+		return !selectedJoinableFiles.empty
 	}
-	
+
 	override execute(ExecutionEvent event) throws ExecutionException {
+		val files=selectedJoinableFiles
+		val first=files.get(0)
+		val texFile=first.parent.getFile(new Path(first.fullPath.removeFileExtension.addFileExtension("tex").lastSegment))
+		if(!texFile.exists){
+			val sorted=files.sortBy[name]
+			texFile.create(new StringInputStream(texContent(sorted)), true, new NullProgressMonitor)
+		}
+		return null
+	}
+
+	def private List<IFile> getSelectedJoinableFiles(){
 		val currentSelection=PlatformUI?.getWorkbench()?.activeWorkbenchWindow?.activePage?.selection
 		if(currentSelection instanceof StructuredSelection){
 			val selection=(currentSelection as StructuredSelection).iterator.toList
 			val files=selection
 				.filter(IFile)
 				.filter[#["jpg","jpeg"].contains(fileExtension.toLowerCase)]
-				.sortBy[name]
 				.toList
-			if(files.map[parent].toSet.size==1){
-				val first=files.get(0)
-				val texFile=first.parent.getFile(new Path(first.fullPath.removeFileExtension.addFileExtension("tex").lastSegment))
-				if(!texFile.exists){
-					texFile.create(new StringInputStream(texContent(files)), true, new NullProgressMonitor)
-				}
+			if(selection.size==files.size && files.size>1 && files.map[parent].toSet.size==1){
+				return files
 			}
 		}
-		return null
+		return #[]
 	}
 
 	def private String texContent(List<IFile> files)'''
