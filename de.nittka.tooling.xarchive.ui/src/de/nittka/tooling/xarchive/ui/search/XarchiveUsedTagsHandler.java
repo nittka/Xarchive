@@ -1,9 +1,11 @@
 package de.nittka.tooling.xarchive.ui.search;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,7 +73,7 @@ public class XarchiveUsedTagsHandler  extends AbstractHandler{
 
 	private void toClipBoard(Map<String, AtomicInteger> tagCount){
 		List<String>sortedTags=new ArrayList<>(tagCount.keySet());
-		Collections.sort(sortedTags);
+		Collections.sort(sortedTags, Collator.getInstance(Locale.getDefault()));
 		List<String> tagAndCount=new ArrayList<>();
 		for (String tag : sortedTags) {
 			tagAndCount.add(tag+" ("+tagCount.get(tag)+")");
