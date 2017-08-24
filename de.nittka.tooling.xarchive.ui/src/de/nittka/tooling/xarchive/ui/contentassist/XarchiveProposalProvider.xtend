@@ -3,10 +3,47 @@
  */
 package de.nittka.tooling.xarchive.ui.contentassist
 
-import de.nittka.tooling.xarchive.ui.contentassist.AbstractXarchiveProposalProvider
+import de.nittka.tooling.xarchive.ui.XarchiveFileURIs
+import de.nittka.tooling.xarchive.xarchive.Document
+import java.util.List
+import javax.inject.Inject
+import org.eclipse.core.resources.IContainer
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.IWorkspace
+import org.eclipse.core.runtime.Path
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
  */
 class XarchiveProposalProvider extends AbstractXarchiveProposalProvider {
+
+	@Inject
+	var IWorkspace workspace
+
+	override completeDocument_AdditionalFiles(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		if(model instanceof Document){
+			val doc=model as Document
+			val referenced=XarchiveFileURIs.getReferencedResourceURI(doc.file)
+			if(referenced!==null){
+				val List<String> propose=newArrayList()
+				val file=workspace.root.getFile(new Path(referenced.toPlatformString(true)))
+				(file.parent as IContainer).members.filter(IFile).forEach[
+					val siblingPath=it.fullPath
+					if(siblingPath.removeFileExtension.lastSegment.endsWith("_")){
+						propose.add(siblingPath.lastSegment)
+					}
+				]
+
+				val alreadyPresent=doc.additionalFiles.map[XarchiveFileURIs.getReferencedResourceURI(it)].filterNull.map[lastSegment].toList
+				propose.removeAll(alreadyPresent)
+				propose.forEach[
+					acceptor.accept(createCompletionProposal(context))
+				]
+			}
+		}
+	}
 }
