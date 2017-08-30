@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.Assignment
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
+import de.nittka.tooling.xarchive.ui.search.XarchiveTagCounter
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
@@ -23,6 +24,8 @@ class XarchiveProposalProvider extends AbstractXarchiveProposalProvider {
 
 	@Inject
 	var IWorkspace workspace
+	@Inject
+	var XarchiveTagCounter tagCounter;
 
 	override completeDocument_AdditionalFiles(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		if(model instanceof Document){
@@ -45,5 +48,10 @@ class XarchiveProposalProvider extends AbstractXarchiveProposalProvider {
 				]
 			}
 		}
+	}
+
+	override completeDocument_Tags(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		val tags=tagCounter.getTags(model.eResource)
+		tags.forEach[acceptor.accept(createCompletionProposal(context))]
 	}
 }
