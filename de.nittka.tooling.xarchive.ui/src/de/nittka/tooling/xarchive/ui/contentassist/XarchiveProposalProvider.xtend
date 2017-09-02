@@ -54,4 +54,9 @@ class XarchiveProposalProvider extends AbstractXarchiveProposalProvider {
 		val tags=tagCounter.getTags(model.eResource)
 		tags.forEach[acceptor.accept(createCompletionProposal(context))]
 	}
+
+	override completeTagSearch_Tag(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		val tags=tagCounter.getTags(model.eResource)
+		tags.forEach[acceptor.accept(createCompletionProposal(context))]
+	}
 }
