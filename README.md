@@ -1,6 +1,6 @@
 # Xarchive
 
-##Scope
+## Scope
 
 This is intended to be a lightweight Xtext based Document management system. Within a single project you keep 
 * a definition file for _categories_
@@ -17,7 +17,7 @@ Supported meta data includes
 * list of (see also) references to other documents (along with description of the reference)
 * full text search string — e.g. obtained via OCR
 
-##Syntax
+## Syntax
 
 ### definition file
 
@@ -114,7 +114,7 @@ status: unPaid;
 common:schoolFeeDaughter;
 ```
 
-#Features
+# Features
 
 * define your own category hierarchies for describing your documents
 * hover showing category descriptions (if you provided them)
@@ -123,6 +123,7 @@ common:schoolFeeDaughter;
 * content assist
   * keywords
   * categories
+  * used tags
   * documents for document references
   * write your own templates for common document types (some sample templates are shipped)
 * validation (+ quickfixes for some)
@@ -139,8 +140,13 @@ common:schoolFeeDaughter;
   * search referenced categories, tags and descriptions
   * boolean operations
   * combine existing (named) searches
+* copy used tags including count to clipboard (e.g. for review)
+* "join" jpg files
+  * a latex file is created for joining multiple scanned images into a single pdf file
+  * the width parameter value can be defined in the eclipse ini, e.g. `-DxarchiveJoinJpgWidth=20.7cm`
+* filters for hiding pdf and jpg files in the Navigator
 
-##Limitations
+## Limitations
 
 For simlicity file names, tags, categories etc. have a restricted character set (a-z, A-Z, digits, undersore and dash).
 
