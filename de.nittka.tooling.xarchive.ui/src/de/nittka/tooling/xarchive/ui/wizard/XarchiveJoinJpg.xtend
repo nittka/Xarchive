@@ -43,7 +43,9 @@ class XarchiveJoinJpg extends AbstractHandler {
 		return #[]
 	}
 
-	def private String texContent(List<IFile> files)'''
+	def private String texContent(List<IFile> files){
+		val width=System.getProperty("xarchiveJoinJpgWidth","21cm")
+		'''
 		\documentclass[11pt,a4paper]{scrartcl}
 		\usepackage{ngerman}
 		\usepackage[lmargin=0cm, tmargin=0cm,rmargin=0cm, bmargin=0cm]{geometry}
@@ -59,10 +61,11 @@ class XarchiveJoinJpg extends AbstractHandler {
 		\ifpdf
 		%\includegraphics[angle=180,width=21cm]{file.jpg}\pagebreak
 		«FOR file:files»
-		\includegraphics[width=21cm]{«file.name»}\pagebreak
+		\includegraphics[width=«width»]{«file.name»}\pagebreak
 		
 		«ENDFOR»
 		\fi 
 		\end{document}
-	'''
+		'''
+	}
 }
