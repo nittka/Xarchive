@@ -13,6 +13,7 @@ import org.eclipse.xtext.validation.CheckType
 import de.nittka.tooling.xarchive.xarchive.ArchiveConfig
 import org.eclipse.core.resources.IContainer
 import org.eclipse.core.resources.IFile
+import java.util.List
 
 class XarchiveUIValidator extends XarchiveValidator {
 
@@ -39,14 +40,14 @@ class XarchiveUIValidator extends XarchiveValidator {
 	def checkAllFilesHaveDescription(ArchiveConfig config) {
 		val file=ws.root.getFile(new Path(config.eResource.URI.toPlatformString(true)))
 		if(file.exists){
+			val List<String> ignorePatterns=if(config.ignore.nullOrEmpty)#[]else{
+				config.ignore.map[it.replaceAll("\\.","\\\\.").replaceAll("\\*","\\.*").replaceAll("\\(","\\\\(").replaceAll("\\)","\\\\)")].toList
+			} 
 			val project=file.project
 			project.accept([resource|
 				switch(resource){
 					IContainer: return true
-					IFile case resource.fileExtension=="xarch": return false
-					IFile case resource.name==".project": return false
-					IFile case resource.name==".gitignore": return false
-					IFile case resource.location.removeFileExtension.lastSegment.endsWith("_"): return false
+					IFile case ignoreFile(resource, ignorePatterns): return false
 					IFile: {
 						val target=XarchiveFileURIs.getXarchiveFile(resource)
 						if(!target.exists){
@@ -60,5 +61,19 @@ class XarchiveUIValidator extends XarchiveValidator {
 				}
 			])
 		}
+	}
+
+	def private boolean ignoreFile(IFile f, List<String> ignorePatterns) {
+		if (f.fileExtension == "xarch" || f.name == ".project" || f.name == ".gitignore") {
+			return true
+		} else if (f.location.removeFileExtension.lastSegment.endsWith("_")) {
+			return true
+		} else if (!ignorePatterns.empty) {
+			val fileLocationWithoutProject = f.fullPath.removeFirstSegments(1).toString
+			if (ignorePatterns.exists[p|fileLocationWithoutProject.matches(p) || f.name.matches(p)]) {
+				return true
+			}
+		}
+		return false;
 	}
 }
