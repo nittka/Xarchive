@@ -1,3 +1,7 @@
+//optional ignore patterns for files not needing a description
+//.project and .gitignore are implicitly ignored
+ignore ".settings/*"
+
 //a category type may be mandatory
 categoriesFor status required {
   done,

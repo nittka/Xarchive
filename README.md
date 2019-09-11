@@ -22,6 +22,8 @@ Supported meta data includes
 ### definition file
 
 ```
+//optional list of patterns for files that require no description
+ignore "*.bak", ".setting/*"
 //a category type may be mandatory
 categoriesFor status required {
   done,
