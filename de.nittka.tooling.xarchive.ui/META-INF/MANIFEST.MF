@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: de.nittka.tooling.xarchive.ui
-Bundle-Vendor: My Company
+Bundle-Vendor: Alexander Nittka
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: de.nittka.tooling.xarchive.ui; singleton:=true
 Bundle-ActivationPolicy: lazy

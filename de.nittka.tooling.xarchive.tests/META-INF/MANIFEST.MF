@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: de.nittka.tooling.xarchive.tests
-Bundle-Vendor: My Company
+Bundle-Vendor: Alexander Nittka
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: de.nittka.tooling.xarchive.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -9,7 +9,8 @@ Require-Bundle: de.nittka.tooling.xarchive,
  de.nittka.tooling.xarchive.ui,
  org.eclipse.core.runtime,
  org.eclipse.xtext.junit4,
- org.eclipse.ui.workbench;resolution:=optional
+ org.eclipse.ui.workbench;resolution:=optional,
+ org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j,
  org.junit;version="4.5.0",
  org.junit.runner;version="4.5.0",

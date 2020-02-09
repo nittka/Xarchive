@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: de.nittka.tooling.xarchive
-Bundle-Vendor: My Company
+Bundle-Vendor: Alexander Nittka
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: de.nittka.tooling.xarchive; singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
- org.antlr.runtime
+ org.antlr.runtime,
+ org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
